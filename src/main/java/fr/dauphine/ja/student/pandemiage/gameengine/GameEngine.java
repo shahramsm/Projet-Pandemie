@@ -88,7 +88,7 @@ public class GameEngine implements GameInterface {
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) node;
 					listStateAttribut.add(eElement.getAttribute("id"));
-					for(int i = 0; i < 7; i++) {
+					for(int i = 0; i < eElement.getElementsByTagName("data").getLength(); i++) {
 						listStateAttribut.add(eElement.getElementsByTagName("data").item(i).getTextContent());
 					}
 				}
