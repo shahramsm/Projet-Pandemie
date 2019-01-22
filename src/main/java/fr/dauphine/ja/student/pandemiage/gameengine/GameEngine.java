@@ -164,9 +164,9 @@ public class GameEngine implements GameInterface {
 		int infectionLevel = 0;
 		for (int i = 0; i < allCity.size(); i++) {
 			if (cityName.equals(allCity.get(i).getName())) {
-				switch(d) {
+				switch (d) {
 				case BLUE:
-					infectionLevel = allCity.get(i).getBlue(); 
+					infectionLevel = allCity.get(i).getBlue();
 					break;
 				case YELLOW:
 					infectionLevel = allCity.get(i).getYellow();
@@ -185,8 +185,31 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public boolean isCured(Disease d) {
-		// TODO
-		throw new UnsupportedOperationException();
+		for (int i = 0; i < allCity.size(); i++) {
+			switch (d) {
+			case BLUE:
+				if(allCity.get(i).isBlueCured()==true) {
+					return true;
+				}
+				break;
+			case YELLOW:
+				if(allCity.get(i).isYellowCured()==true) {
+					return true;
+				}
+				break;
+			case BLACK:
+				if(allCity.get(i).isBlackCured()==true) {
+					return true;
+				}
+				break;
+			case RED:
+				if(allCity.get(i).isRedCured()==true) {
+					return true;
+				}
+				break;
+			}
+		}
+		return false;
 	}
 
 	@Override
