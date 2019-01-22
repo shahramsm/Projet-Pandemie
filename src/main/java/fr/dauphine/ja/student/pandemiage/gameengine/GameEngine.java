@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.awt.Color;
 import java.io.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -26,8 +26,7 @@ public class GameEngine implements GameInterface {
 	private final String aiJar;
 	private final String cityGraphFilename;
 	private GameStatus gameStatus;
-	private ArrayList<ArrayList<String>> allCity;
-	private ArrayList<ArrayList<String>> cityEdge;
+	private ArrayList<City> allCity;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -74,48 +73,51 @@ public class GameEngine implements GameInterface {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 
-			Document document = builder.parse(new File(cityGraphFilename));
+			Document document = builder.parse(new File("pandemic.graphml"));
 
 			document.getDocumentElement().normalize();
 
 			Element root = document.getDocumentElement();
 
 			NodeList nList = document.getElementsByTagName("node");
-			ArrayList<ArrayList<String>> listState = new ArrayList<ArrayList<String>>();
+			ArrayList<City> listState = new ArrayList<City>();
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				ArrayList<String> listStateAttribut = new ArrayList<String>();
 				Node node = nList.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) node;
 					listStateAttribut.add(eElement.getAttribute("id"));
-					for(int i = 0; i < eElement.getElementsByTagName("data").getLength(); i++) {
+					for (int i = 0; i < eElement.getElementsByTagName("data").getLength(); i++) {
 						listStateAttribut.add(eElement.getElementsByTagName("data").item(i).getTextContent());
 					}
 				}
-				listState.add(listStateAttribut);
+				City c = new City(listStateAttribut.get(0), listStateAttribut.get(1), listStateAttribut.get(2),
+						listStateAttribut.get(3), listStateAttribut.get(4), listStateAttribut.get(5),
+						listStateAttribut.get(6), listStateAttribut.get(7), listStateAttribut.get(8),
+						listStateAttribut.get(9));
+				listState.add(c);
 			}
-			this.allCity = listState;
 
 			NodeList nList1 = document.getElementsByTagName("edge");
 			ArrayList<ArrayList<String>> listStateEdge = new ArrayList<ArrayList<String>>();
 			for (int temp = 0; temp < nList1.getLength(); temp++) {
-				ArrayList<String> listStateEdgeNeightbour = new ArrayList<String>();
 				Node node = nList1.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) node;
 					String source = eElement.getAttribute("source");
 					String target = eElement.getAttribute("target");
 					for (int i = 0; i < listState.size(); i++) {
-						if (listState.get(i).get(0).equals(target)) {
-							String state = listState.get(i).get(1);
-							listStateEdgeNeightbour.add(source);
-							listStateEdgeNeightbour.add(state);
+						if (listState.get(i).getId().equals(source)) {
+							for (int j = 0; j < listState.size(); j++) {
+								if (listState.get(j).getId().equals(target)) {
+									listState.get(i).getNeighbours().add(listState.get(j).getName());
+								}
+							}
 						}
 					}
 				}
-				listStateEdge.add(listStateEdgeNeightbour);
 			}
-			this.cityEdge = listStateEdge;
+			this.allCity = listState;
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -141,7 +143,7 @@ public class GameEngine implements GameInterface {
 	public List<String> allCityNames() {
 		ArrayList<String> allCityNames = new ArrayList<String>();
 		for (int i = 0; i < allCity.size(); i++) {
-			allCityNames.add(allCity.get(i).get(1));
+			allCityNames.add(allCity.get(i).getName());
 		}
 		return allCityNames;
 	}
@@ -149,15 +151,9 @@ public class GameEngine implements GameInterface {
 	@Override
 	public List<String> neighbours(String cityName) {
 		ArrayList<String> neighbours = new ArrayList<String>();
-		String j = null;;
 		for (int i = 0; i < allCity.size(); i++) {
-			if (cityName.equals(allCity.get(i).get(1))) {
-				j = allCity.get(i).get(0);
-			}
-		}
-		for (int k = 0; k < cityEdge.size(); k++) {
-			if (j.equals(cityEdge.get(k).get(0))) {
-				neighbours.add(cityEdge.get(k).get(1));
+			if (cityName.equals(allCity.get(i).getName())) {
+				neighbours = allCity.get(i).getNeighbours();
 			}
 		}
 		return neighbours;
@@ -165,8 +161,26 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public int infectionLevel(String cityName, Disease d) {
-		// TODO
-		throw new UnsupportedOperationException();
+		int infectionLevel = 0;
+		for (int i = 0; i < allCity.size(); i++) {
+			if (cityName.equals(allCity.get(i).getName())) {
+				switch(d) {
+				case BLUE:
+					infectionLevel = allCity.get(i).getBlue(); 
+					break;
+				case YELLOW:
+					infectionLevel = allCity.get(i).getYellow();
+					break;
+				case BLACK:
+					infectionLevel = allCity.get(i).getBlack();
+					break;
+				case RED:
+					infectionLevel = allCity.get(i).getRed();
+					break;
+				}
+			}
+		}
+		return infectionLevel;
 	}
 
 	@Override
