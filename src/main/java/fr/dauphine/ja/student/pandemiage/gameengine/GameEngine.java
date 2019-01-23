@@ -232,8 +232,32 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public boolean isEradicated(Disease d) {
-		// TODO
-		throw new UnsupportedOperationException();
+		int il = -1;
+			A:for(int i = 0; i < allCity.size(); i++) {
+					switch(d) {
+					case BLUE:
+						// = allCity.get(i).getBlue();
+						 il = infectionLevel(allCity.get(i).getName(),d);
+						break;
+					case YELLOW:
+						il = infectionLevel(allCity.get(i).getName(),d);
+						break;
+					case BLACK:
+						il = infectionLevel(allCity.get(i).getName(),d);
+						break;
+					case RED:
+						il = infectionLevel(allCity.get(i).getName(),d);
+						break;
+					}
+					
+				if(il == 0 && isCured(d)) // Si le niveau d'infection est nul et qu'il existe un remede dans cette ville
+					{
+					continue A;
+					}
+				else return false;
+			}
+			
+		return true;
 	}
 
 	@Override
