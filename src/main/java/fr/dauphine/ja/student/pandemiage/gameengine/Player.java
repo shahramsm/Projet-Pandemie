@@ -8,14 +8,15 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface {
-	
-	private String location="";
+	private String location = "Atlanta";
 	private int cpt;
 	private GameEngine g;
-	
-	public Player(GameEngine g){
+	private List<PlayerCard> l;
+
+	public Player(GameEngine g) {
 		this.g = g;
 		this.cpt = 4;
+		
 	}
 
 	public String getLocation() {
@@ -27,41 +28,55 @@ public class Player implements PlayerInterface {
 	}
 
 	@Override
-	public void moveTo(String cityName) {
-		if(g.neighbours(location).contains(cityName)){
-			this.location = cityName;
-			this.cpt-=1;
+	public void moveTo(String cityName) throws UnauthorizedActionException {
+		if (this.cpt <= 0 || !g.neighbours(location).contains(cityName)     || !g.allCityNames().contains(cityName) ) {
+			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		} else {
+			 
+				this.location = cityName;
+				this.cpt -= 1;
+			
 		}
 	}
 
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		// TODO Auto-generated method stub
+		/*
+		if (this.cpt <= 0 ||    l.getCityName().contains(cityName) || !g.allCityNames().contains(cityName) ) {
+			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		} else {
+			 
+				this.location = cityName;
+				this.cpt -= 1;
+			
+		}*/
 		
+		
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void skipTurn() {
-		// TODO Auto-generated method stub
-		
+		cpt -= 1;
 	}
 
 	@Override
 	public void treatDisease(Disease d) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -75,6 +90,5 @@ public class Player implements PlayerInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
 }
