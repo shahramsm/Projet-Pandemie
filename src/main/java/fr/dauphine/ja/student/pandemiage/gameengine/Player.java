@@ -30,10 +30,14 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)
-				|| !g.allCityNames().contains(cityName)) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName) || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
+			for (int i = 0; i < l.size(); i++) {
+				if (!(this.l.get(i).getAction().equals("moveTo"))) {
+					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+				}
+			}
 			this.location = cityName;
 			this.cpt -= 1;
 		}

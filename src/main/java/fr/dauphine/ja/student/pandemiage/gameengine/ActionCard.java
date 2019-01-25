@@ -11,6 +11,11 @@ public class ActionCard extends PlayerCard {
 		this.action = action;
 	}
 	
+	public ActionCard(String action) {
+		super();
+		this.action = action;
+	}
+	
 	public String getCityName(){
 		return this.cityName;
 	}
