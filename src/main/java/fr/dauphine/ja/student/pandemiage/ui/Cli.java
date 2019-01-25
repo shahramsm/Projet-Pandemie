@@ -72,7 +72,7 @@ public class Cli {
 	    }
 		
 		GameEngine g = new GameEngine(cityGraphFile, aijar);
-		/*...*/
+		g.setTurnDuration(turnDuration);
 		g.loop();		
 	}
 }

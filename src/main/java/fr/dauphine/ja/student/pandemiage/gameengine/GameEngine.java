@@ -27,6 +27,7 @@ public class GameEngine implements GameInterface {
 	private final String cityGraphFilename;
 	private GameStatus gameStatus;
 	private ArrayList<City> allCity;
+	private int turnDuration = 1;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -223,10 +224,13 @@ public class GameEngine implements GameInterface {
 		return this.gameStatus;
 	}
 
+	public void setTurnDuration(int turnDuration) {
+		this.turnDuration = turnDuration;
+	}
+	
 	@Override
 	public int turnDuration() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return this.turnDuration;
 	}
 
 	@Override
