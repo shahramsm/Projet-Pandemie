@@ -11,9 +11,9 @@ public class Player implements PlayerInterface {
 	private String location = "Atlanta";
 	private int cpt;
 	private GameEngine g;
-	private List<PlayerCard> l;
+	private List<ActionCard> l;
 
-	public Player(GameEngine g,List<PlayerCard> l) {
+	public Player(GameEngine g,List<ActionCard> l) {
 		this.g = g;
 		this.cpt = 4;
 		this.l=l;
@@ -58,8 +58,17 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
-		// TODO Auto-generated method stub
-
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName) ) {
+			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		} else {
+			for(int i = 0; i < l.size(); i++) {
+				if((this.l.get(i).getAction().equals("flyToCharter"))) {
+					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+				}
+			}
+			this.location = cityName;
+			this.cpt -= 1;
+		}
 	}
 
 	@Override
