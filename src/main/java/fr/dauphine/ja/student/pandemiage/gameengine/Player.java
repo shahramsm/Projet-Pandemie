@@ -30,6 +30,7 @@ public class Player implements PlayerInterface {
 	public void moveTo(String cityName) {
 		if(g.neighbours(location).contains(cityName)){
 			this.location = cityName;
+			this.cpt-=1;
 		}
 	}
 
