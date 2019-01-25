@@ -14,10 +14,10 @@ public class Player implements PlayerInterface {
 	private GameEngine g;
 	private List<ActionCard> l;
 
-	public Player(GameEngine g,List<ActionCard> l) {
+	public Player(GameEngine g, List<ActionCard> l) {
 		this.g = g;
 		this.cpt = 4;
-		this.l=l;
+		this.l = l;
 	}
 
 	public String getLocation() {
@@ -30,41 +30,37 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)     || !g.allCityNames().contains(cityName) ) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)
+				|| !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			 
-				this.location = cityName;
-				this.cpt -= 1;
-			
+			this.location = cityName;
+			this.cpt -= 1;
 		}
 	}
-	
-	
+
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName) ) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			for(int i = 0; i < l.size(); i++) {
-				if(!(this.l.get(i).getAction().equals("flyTo")) && !(this.l.get(i).getCityName().equals(cityName))) {
+			for (int i = 0; i < l.size(); i++) {
+				if (!(this.l.get(i).getAction().equals("flyTo")) && !(this.l.get(i).getCityName().equals(cityName))) {
 					throw new UnauthorizedActionException("l'action n'est pas autorisé");
 				}
 			}
 			this.location = cityName;
 			this.cpt -= 1;
 		}
-
 	}
 
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName) ) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			for(int i = 0; i < l.size(); i++) {
-				if((this.l.get(i).getAction().equals("flyToCharter"))) {
+			for (int i = 0; i < l.size(); i++) {
+				if (!(this.l.get(i).getAction().equals("flyToCharter"))) {
 					throw new UnauthorizedActionException("l'action n'est pas autorisé");
 				}
 			}
