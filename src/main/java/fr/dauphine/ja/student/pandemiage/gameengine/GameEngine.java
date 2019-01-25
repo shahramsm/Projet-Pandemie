@@ -220,8 +220,7 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public GameStatus gameStatus() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return this.gameStatus;
 	}
 
 	@Override
