@@ -1,5 +1,6 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.dauphine.ja.pandemiage.common.Disease;
@@ -12,7 +13,11 @@ public class Player implements PlayerInterface {
 	private int cpt;
 	private GameEngine g;
 	private List<ActionCard> l;
+<<<<<<< Updated upstream
 
+=======
+	
+>>>>>>> Stashed changes
 	public Player(GameEngine g,List<ActionCard> l) {
 		this.g = g;
 		this.cpt = 4;
@@ -29,7 +34,7 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.cpt <= 0 || !g.neighbours(location).contains(cityName)     || !g.allCityNames().contains(cityName) ) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)     || !g.allCityNames().contains(cityName) ) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
 			 
@@ -38,18 +43,28 @@ public class Player implements PlayerInterface {
 			
 		}
 	}
-
+	
+	public List<String> allNamecityOfActionCard(List<ActionCard> l){
+		ArrayList<String> res = new ArrayList<String>();
+		for(ActionCard a:l){
+			String s=a.getCityName();
+			res.add(s);
+		}
+		return res;
+	}
+	
+	
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		/*
-		if (this.cpt <= 0 ||    l.getCityName().contains(cityName) || !g.allCityNames().contains(cityName) ) {
+		
+		if (this.cpt <= 0 ||  this.l.isEmpty() ||  allNamecityOfActionCard.contains(cityName) || !g.allCityNames().contains(cityName) ) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
 			 
 				this.location = cityName;
 				this.cpt -= 1;
 			
-		}*/
+		}
 		
 		
 		// TODO Auto-generated method stub
