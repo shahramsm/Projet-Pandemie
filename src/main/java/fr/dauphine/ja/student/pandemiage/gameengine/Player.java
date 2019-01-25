@@ -13,11 +13,7 @@ public class Player implements PlayerInterface {
 	private int cpt;
 	private GameEngine g;
 	private List<ActionCard> l;
-<<<<<<< Updated upstream
 
-=======
-	
->>>>>>> Stashed changes
 	public Player(GameEngine g,List<ActionCard> l) {
 		this.g = g;
 		this.cpt = 4;
@@ -44,30 +40,21 @@ public class Player implements PlayerInterface {
 		}
 	}
 	
-	public List<String> allNamecityOfActionCard(List<ActionCard> l){
-		ArrayList<String> res = new ArrayList<String>();
-		for(ActionCard a:l){
-			String s=a.getCityName();
-			res.add(s);
-		}
-		return res;
-	}
-	
 	
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
 		
-		if (this.cpt <= 0 ||  this.l.isEmpty() ||  allNamecityOfActionCard.contains(cityName) || !g.allCityNames().contains(cityName) ) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName) ) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			 
-				this.location = cityName;
-				this.cpt -= 1;
-			
+			for(int i = 0; i < l.size(); i++) {
+				if(!(this.l.get(i).getAction().equals("flyTo")) && !(this.l.get(i).getCityName().equals(cityName))) {
+					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+				}
+			}
+			this.location = cityName;
+			this.cpt -= 1;
 		}
-		
-		
-		// TODO Auto-generated method stub
 
 	}
 
