@@ -13,10 +13,10 @@ public class Player implements PlayerInterface {
 	private GameEngine g;
 	private List<PlayerCard> l;
 
-	public Player(GameEngine g) {
+	public Player(GameEngine g,List<PlayerCard> l) {
 		this.g = g;
 		this.cpt = 4;
-		
+		this.l=l;
 	}
 
 	public String getLocation() {
