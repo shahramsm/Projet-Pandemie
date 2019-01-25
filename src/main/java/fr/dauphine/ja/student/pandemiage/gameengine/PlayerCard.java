@@ -7,6 +7,11 @@ public class PlayerCard implements PlayerCardInterface {
 	private String cityName;
 	private Disease disease;
 
+	public PlayerCard(String cityName) {
+		this.cityName = cityName;
+		this.disease = null;
+	}
+
 	public PlayerCard(String cityName, Disease disease) {
 		this.cityName = cityName;
 		this.disease = disease;
