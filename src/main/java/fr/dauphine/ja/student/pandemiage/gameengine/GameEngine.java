@@ -32,6 +32,7 @@ public class GameEngine implements GameInterface {
 	private boolean yellowCured = false;
 	private boolean blackCured = false;
 	private boolean redCured = false;
+<<<<<<< Updated upstream
 	private int nbCubeRed =24;
 	private int nbCubeBlack =24;
 	private int nbCubeBlue =24;
@@ -40,6 +41,12 @@ public class GameEngine implements GameInterface {
 	private boolean blackDicoverdCure=false;
 	private boolean redDicoverdCure=false;
 	private boolean yellowDicoverdCure=false;
+=======
+	private boolean blueDiscoveredCure = false;
+	private boolean yellowDiscoveredCure = false;
+	private boolean blackDiscoveredCure = false;
+	private boolean redDiscoveredCure = false;
+>>>>>>> Stashed changes
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -182,6 +189,38 @@ public class GameEngine implements GameInterface {
 		return blueCured;
 	}
 
+	public boolean isBlueDiscoveredCure() {
+		return blueDiscoveredCure;
+	}
+
+	public void setBlueDiscoveredCure(boolean blueDiscoveredCure) {
+		this.blueDiscoveredCure = blueDiscoveredCure;
+	}
+
+	public boolean isYellowDiscoveredCure() {
+		return yellowDiscoveredCure;
+	}
+
+	public void setYellowDiscoveredCure(boolean yellowDiscoveredCure) {
+		this.yellowDiscoveredCure = yellowDiscoveredCure;
+	}
+
+	public boolean isBlackDiscoveredCure() {
+		return blackDiscoveredCure;
+	}
+
+	public void setBlackDiscoveredCure(boolean blackDiscoveredCure) {
+		this.blackDiscoveredCure = blackDiscoveredCure;
+	}
+
+	public boolean isRedDiscoveredCure() {
+		return redDiscoveredCure;
+	}
+
+	public void setRedDiscoveredCure(boolean redDiscoveredCure) {
+		this.redDiscoveredCure = redDiscoveredCure;
+	}
+
 	public void setBlueCured(boolean blueCured) {
 		this.blueCured = blueCured;
 	}
@@ -303,29 +342,15 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public boolean isCured(Disease d) {
-		for (int i = 0; i < allCity.size(); i++) {
-			switch (d) {
-			case BLUE:
-				if(this.blueCured==true) {
-					return true;
-				}
-				break;
-			case YELLOW:
-				if(this.yellowCured==true) {
-					return true;
-				}
-				break;
-			case BLACK:
-				if(this.blackCured==true) {
-					return true;
-				}
-				break;
-			case RED:
-				if(this.redCured==true) {
-					return true;
-				}
-				break;
-			}
+		switch (d) {
+		case BLUE:
+			return this.blueCured;
+		case YELLOW:
+			return this.yellowCured;
+		case BLACK:
+			return this.blackCured;
+		case RED:
+			return this.redCured;
 		}
 		return false;
 	}
@@ -344,7 +369,7 @@ public class GameEngine implements GameInterface {
 	public void setTurnDuration(int turnDuration) {
 		this.turnDuration = turnDuration;
 	}
-	
+
 	@Override
 	public int turnDuration() {
 		return this.turnDuration;
@@ -353,30 +378,30 @@ public class GameEngine implements GameInterface {
 	@Override
 	public boolean isEradicated(Disease d) {
 		int il = -1;
-			A:for(int i = 0; i < allCity.size(); i++) {
-					switch(d) {
-					case BLUE:
-						// = allCity.get(i).getBlue();
-						 il = infectionLevel(allCity.get(i).getName(),d);
-						break;
-					case YELLOW:
-						il = infectionLevel(allCity.get(i).getName(),d);
-						break;
-					case BLACK:
-						il = infectionLevel(allCity.get(i).getName(),d);
-						break;
-					case RED:
-						il = infectionLevel(allCity.get(i).getName(),d);
-						break;
-					}
-					
-				if(il == 0 && isCured(d)) // Si le niveau d'infection est nul et qu'il existe un remede dans cette ville
-					{
-					continue A;
-					}
-				else return false;
+		A: for (int i = 0; i < allCity.size(); i++) {
+			switch (d) {
+			case BLUE:
+				// = allCity.get(i).getBlue();
+				il = infectionLevel(allCity.get(i).getName(), d);
+				break;
+			case YELLOW:
+				il = infectionLevel(allCity.get(i).getName(), d);
+				break;
+			case BLACK:
+				il = infectionLevel(allCity.get(i).getName(), d);
+				break;
+			case RED:
+				il = infectionLevel(allCity.get(i).getName(), d);
+				break;
 			}
-			
+
+			if (il == 0 && isCured(d)) // Si le niveau d'infection est nul et qu'il existe un remede dans cette ville
+			{
+				continue A;
+			} else
+				return false;
+		}
+
 		return true;
 	}
 
