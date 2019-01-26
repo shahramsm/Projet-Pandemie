@@ -32,21 +32,14 @@ public class GameEngine implements GameInterface {
 	private boolean yellowCured = false;
 	private boolean blackCured = false;
 	private boolean redCured = false;
-<<<<<<< Updated upstream
 	private int nbCubeRed =24;
 	private int nbCubeBlack =24;
 	private int nbCubeBlue =24;
 	private int nbCubeYellow =24;
-	private boolean blueDicoverdCure=false;
-	private boolean blackDicoverdCure=false;
-	private boolean redDicoverdCure=false;
-	private boolean yellowDicoverdCure=false;
-=======
 	private boolean blueDiscoveredCure = false;
 	private boolean yellowDiscoveredCure = false;
 	private boolean blackDiscoveredCure = false;
 	private boolean redDiscoveredCure = false;
->>>>>>> Stashed changes
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -250,35 +243,35 @@ public class GameEngine implements GameInterface {
 	}
 
 	public boolean isBlueDicoverdCure() {
-		return blueDicoverdCure;
+		return blueDiscoveredCure;
 	}
 
 	public void setBlueDicoverdCure(boolean blueDicoverdCure) {
-		this.blueDicoverdCure = blueDicoverdCure;
+		this.blueDiscoveredCure = blueDicoverdCure;
 	}
 
 	public boolean isBlackDicoverdCure() {
-		return blackDicoverdCure;
+		return blackDiscoveredCure;
 	}
 
 	public void setBlackDicoverdCure(boolean blackDicoverdCure) {
-		this.blackDicoverdCure = blackDicoverdCure;
+		this.blackDiscoveredCure = blackDicoverdCure;
 	}
 
 	public boolean isRedDicoverdCure() {
-		return redDicoverdCure;
+		return redDiscoveredCure;
 	}
 
 	public void setRedDicoverdCure(boolean redDicoverdCure) {
-		this.redDicoverdCure = redDicoverdCure;
+		this.redDiscoveredCure = redDicoverdCure;
 	}
 
 	public boolean isYellowDicoverdCure() {
-		return yellowDicoverdCure;
+		return yellowDiscoveredCure;
 	}
 
 	public void setYellowDicoverdCure(boolean yellowDicoverdCure) {
-		this.yellowDicoverdCure = yellowDicoverdCure;
+		this.yellowDiscoveredCure = yellowDicoverdCure;
 	}
 
 	public void loop() {
