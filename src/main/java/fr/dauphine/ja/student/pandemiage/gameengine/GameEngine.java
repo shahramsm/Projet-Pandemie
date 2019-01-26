@@ -32,6 +32,11 @@ public class GameEngine implements GameInterface {
 	private boolean yellowCured = false;
 	private boolean blackCured = false;
 	private boolean redCured = false;
+	private int nbCubeRed =24;
+	private int nbCubeBlack =24;
+	private int nbCubeBlue =24;
+	private int nbCubeYellow =24;
+	
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -69,10 +74,14 @@ public class GameEngine implements GameInterface {
 		System.err.println("Nb-player-cards-left:" + getNbPlayerCardsLeft());
 	}
 
-	public GameEngine(String cityGraphFilename, String aiJar) {
+	public GameEngine(String cityGraphFilename, String aiJar,int nbCubeRed,int nbCubeBlack,int nbCubeBlue,int nbCubeYellow ) {
 		this.cityGraphFilename = cityGraphFilename;
 		this.aiJar = aiJar;
 		this.gameStatus = GameStatus.ONGOING;
+		this.nbCubeRed=nbCubeRed;
+		this.nbCubeBlack=nbCubeBlack;
+		this.nbCubeBlue=nbCubeBlue;
+		this.nbCubeYellow=nbCubeYellow;
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -127,6 +136,38 @@ public class GameEngine implements GameInterface {
 			System.out.println(e);
 		}
 
+	}
+
+	public int getNbCubeRed() {
+		return nbCubeRed;
+	}
+
+	public void setNbCubeRed(int nbCubeRed) {
+		this.nbCubeRed = nbCubeRed;
+	}
+
+	public int getNbCubeBlack() {
+		return nbCubeBlack;
+	}
+
+	public void setNbCubeBlack(int nbCubeBlack) {
+		this.nbCubeBlack = nbCubeBlack;
+	}
+
+	public int getNbCubeBlue() {
+		return nbCubeBlue;
+	}
+
+	public void setNbCubeBlue(int nbCubeBlue) {
+		this.nbCubeBlue = nbCubeBlue;
+	}
+
+	public int getNbCubeYellow() {
+		return nbCubeYellow;
+	}
+
+	public void setNbCubeYellow(int nbCubeYellow) {
+		this.nbCubeYellow = nbCubeYellow;
 	}
 
 	public boolean isBlueCured() {
