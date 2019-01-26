@@ -30,7 +30,7 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)	|| !g.allCityNames().contains(cityName)) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName) || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
 			for (int i = 0; i < l.size(); i++) {
@@ -95,10 +95,10 @@ public class Player implements PlayerInterface {
 						if (g.isBlueDicoverdCure()) {
 							g.setNbCubeBlue(g.getAllCity().get(i).getBlue() + g.getNbCubeBlue());
 							g.getAllCity().get(i).setBlue(0);
-							
+
 						} else {
 							g.getAllCity().get(i).setBlue(g.getAllCity().get(i).getBlue() - 1);
-							g.setNbCubeBlue(g.getNbCubeBlue()+1);
+							g.setNbCubeBlue(g.getNbCubeBlue() + 1);
 						}
 						break;
 					case BLACK:
@@ -106,8 +106,8 @@ public class Player implements PlayerInterface {
 							g.setNbCubeBlack(g.getAllCity().get(i).getBlack() + g.getNbCubeBlack());
 							g.getAllCity().get(i).setBlack(0);
 						} else {
-							g.getAllCity().get(i).setBlack(g.getAllCity().get(i).getBlack() - 1);
-							g.setNbCubeBlack(g.getNbCubeBlack()+1);
+							g.getAllCity().get(i).setBlack(g.getAllCity().get(i).getBlack() - 0);
+							g.setNbCubeBlack(g.getNbCubeBlack() + 1);
 						}
 						break;
 					case YELLOW:
@@ -116,7 +116,7 @@ public class Player implements PlayerInterface {
 							g.getAllCity().get(i).setYellow(0);
 						} else {
 							g.getAllCity().get(i).setYellow(g.getAllCity().get(i).getYellow() - 1);
-							g.setNbCubeYellow(g.getNbCubeYellow()+1);
+							g.setNbCubeYellow(g.getNbCubeYellow() + 1);
 						}
 						break;
 					case RED:
@@ -125,7 +125,7 @@ public class Player implements PlayerInterface {
 							g.getAllCity().get(i).setRed(0);
 						} else {
 							g.getAllCity().get(i).setRed(g.getAllCity().get(i).getRed() - 1);
-							g.setNbCubeRed(g.getNbCubeRed()+1);
+							g.setNbCubeRed(g.getNbCubeRed() + 1);
 						}
 						break;
 					}
@@ -134,9 +134,6 @@ public class Player implements PlayerInterface {
 			}
 		}
 	}
-			
-		
-	
 
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
@@ -145,6 +142,9 @@ public class Player implements PlayerInterface {
 		int nbTreatCardBlack = 0;
 		int nbTreatCardRed = 0;
 	//	l= (List<PlayerCard>) cardNames ;
+		Disease d;
+		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
+		for (int i = 0; i < l.size(); i++) {
 		Disease d;
 		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
 		for (int i = 0; i < l.size(); i++) {
