@@ -20,10 +20,6 @@ public class City {
 	private int yellow = 0;
 	private int black = 0;
 	private int red = 0;
-	private boolean blueCured = false;
-	private boolean yellowCured = false;
-	private boolean blackCured = false;
-	private boolean redCured = false;
 	private ArrayList<String> neighbours = new ArrayList<String>();
 
 	public City(String id, String name, String eigencentrality, String degree, String size, String r, String g,
@@ -158,38 +154,6 @@ public class City {
 
 	public void setNeighbours(ArrayList<String> neighbours) {
 		this.neighbours = neighbours;
-	}
-
-	public boolean isBlueCured() {
-		return blueCured;
-	}
-
-	public void setBlueCured(boolean blueCured) {
-		this.blueCured = blueCured;
-	}
-
-	public boolean isYellowCured() {
-		return yellowCured;
-	}
-
-	public void setYellowCured(boolean yellowCured) {
-		this.yellowCured = yellowCured;
-	}
-
-	public boolean isBlackCured() {
-		return blackCured;
-	}
-
-	public void setBlackCured(boolean blackCured) {
-		this.blackCured = blackCured;
-	}
-
-	public boolean isRedCured() {
-		return redCured;
-	}
-
-	public void setRedCured(boolean redCured) {
-		this.redCured = redCured;
 	}
 
 	@Override

@@ -28,6 +28,10 @@ public class GameEngine implements GameInterface {
 	private GameStatus gameStatus;
 	private ArrayList<City> allCity;
 	private int turnDuration = 1;
+	private boolean blueCured = false;
+	private boolean yellowCured = false;
+	private boolean blackCured = false;
+	private boolean redCured = false;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -125,6 +129,38 @@ public class GameEngine implements GameInterface {
 
 	}
 
+	public boolean isBlueCured() {
+		return blueCured;
+	}
+
+	public void setBlueCured(boolean blueCured) {
+		this.blueCured = blueCured;
+	}
+
+	public boolean isYellowCured() {
+		return yellowCured;
+	}
+
+	public void setYellowCured(boolean yellowCured) {
+		this.yellowCured = yellowCured;
+	}
+
+	public boolean isBlackCured() {
+		return blackCured;
+	}
+
+	public void setBlackCured(boolean blackCured) {
+		this.blackCured = blackCured;
+	}
+
+	public boolean isRedCured() {
+		return redCured;
+	}
+
+	public void setRedCured(boolean redCured) {
+		this.redCured = redCured;
+	}
+
 	public void loop() {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);
@@ -189,22 +225,22 @@ public class GameEngine implements GameInterface {
 		for (int i = 0; i < allCity.size(); i++) {
 			switch (d) {
 			case BLUE:
-				if(allCity.get(i).isBlueCured()==true) {
+				if(this.blueCured==true) {
 					return true;
 				}
 				break;
 			case YELLOW:
-				if(allCity.get(i).isYellowCured()==true) {
+				if(this.yellowCured==true) {
 					return true;
 				}
 				break;
 			case BLACK:
-				if(allCity.get(i).isBlackCured()==true) {
+				if(this.blackCured==true) {
 					return true;
 				}
 				break;
 			case RED:
-				if(allCity.get(i).isRedCured()==true) {
+				if(this.redCured==true) {
 					return true;
 				}
 				break;
