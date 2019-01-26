@@ -12,9 +12,9 @@ public class Player implements PlayerInterface {
 	private String location = "Atlanta";
 	private int cpt;
 	private GameEngine g;
-	private List<ActionCard> l;
+	private List<PlayerCard> l;
 
-	public Player(GameEngine g, List<ActionCard> l) {
+	public Player(GameEngine g, List<PlayerCard> l) {
 		this.g = g;
 		this.cpt = 4;
 		this.l = l;
@@ -30,7 +30,7 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName) || !g.allCityNames().contains(cityName)) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)	|| !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
 			for (int i = 0; i < l.size(); i++) {
@@ -140,20 +140,54 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
-		// TODO Auto-generated method stub
-
+		int nbTreatCardBlue = 0;
+		int nbTreatCardYellow = 0;
+		int nbTreatCardBlack = 0;
+		int nbTreatCardRed = 0;
+		l= (List<PlayerCard>) cardNames ;
+		Disease d;
+		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
+		for (int i = 0; i < l.size(); i++) {
+			if (this.l.get(i).getAction().equals("treatDisease")) {
+				d = l.get(i).getDisease();
+				switch (d) {
+				case BLUE:
+					nbTreatCardBlue++;
+					break;
+				case YELLOW:
+					nbTreatCardYellow++;
+					break;
+				case BLACK:
+					nbTreatCardBlack++;
+					break;
+				case RED:
+					nbTreatCardRed++;
+					break;
+				}
+			}
+		}
+		// met à jour le status de la découverte d'un remède
+		if (nbTreatCardBlue == 5) {
+			g.setBlueDiscoveredCure(true);
+		} else if (nbTreatCardYellow == 5) {
+			g.setYellowDiscoveredCure(true);
+		} else if (nbTreatCardBlack == 5) {
+			g.setBlackDiscoveredCure(true);
+		} else if (nbTreatCardRed == 5) {
+			g.setRedDiscoveredCure(true);
+		}
+		cpt--;
 	}
 
 	@Override
 	public String playerLocation() {
-		// TODO Auto-generated method stub
 		return this.location;
 	}
 
 	@Override
 	public List<PlayerCardInterface> playerHand() {
 		List<PlayerCardInterface> playerCardList = new ArrayList<PlayerCardInterface>();
-		for(int i = 0; i < l.size(); i++) {
+		for (int i = 0; i < l.size(); i++) {
 			playerCardList.add(l.get(i));
 		}
 		return playerCardList;
