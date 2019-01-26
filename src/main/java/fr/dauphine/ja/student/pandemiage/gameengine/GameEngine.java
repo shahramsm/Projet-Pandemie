@@ -36,7 +36,10 @@ public class GameEngine implements GameInterface {
 	private int nbCubeBlack =24;
 	private int nbCubeBlue =24;
 	private int nbCubeYellow =24;
-	
+	private boolean blueDicoverdCure=false;
+	private boolean blackDicoverdCure=false;
+	private boolean redDicoverdCure=false;
+	private boolean yellowDicoverdCure=false;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -74,14 +77,11 @@ public class GameEngine implements GameInterface {
 		System.err.println("Nb-player-cards-left:" + getNbPlayerCardsLeft());
 	}
 
-	public GameEngine(String cityGraphFilename, String aiJar,int nbCubeRed,int nbCubeBlack,int nbCubeBlue,int nbCubeYellow ) {
+	public GameEngine(String cityGraphFilename, String aiJar ) {
 		this.cityGraphFilename = cityGraphFilename;
 		this.aiJar = aiJar;
 		this.gameStatus = GameStatus.ONGOING;
-		this.nbCubeRed=nbCubeRed;
-		this.nbCubeBlack=nbCubeBlack;
-		this.nbCubeBlue=nbCubeBlue;
-		this.nbCubeYellow=nbCubeYellow;
+		
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -136,6 +136,14 @@ public class GameEngine implements GameInterface {
 			System.out.println(e);
 		}
 
+	}
+
+	public ArrayList<City> getAllCity() {
+		return allCity;
+	}
+
+	public void setAllCity(ArrayList<City> allCity) {
+		this.allCity = allCity;
 	}
 
 	public int getNbCubeRed() {
@@ -200,6 +208,38 @@ public class GameEngine implements GameInterface {
 
 	public void setRedCured(boolean redCured) {
 		this.redCured = redCured;
+	}
+
+	public boolean isBlueDicoverdCure() {
+		return blueDicoverdCure;
+	}
+
+	public void setBlueDicoverdCure(boolean blueDicoverdCure) {
+		this.blueDicoverdCure = blueDicoverdCure;
+	}
+
+	public boolean isBlackDicoverdCure() {
+		return blackDicoverdCure;
+	}
+
+	public void setBlackDicoverdCure(boolean blackDicoverdCure) {
+		this.blackDicoverdCure = blackDicoverdCure;
+	}
+
+	public boolean isRedDicoverdCure() {
+		return redDicoverdCure;
+	}
+
+	public void setRedDicoverdCure(boolean redDicoverdCure) {
+		this.redDicoverdCure = redDicoverdCure;
+	}
+
+	public boolean isYellowDicoverdCure() {
+		return yellowDicoverdCure;
+	}
+
+	public void setYellowDicoverdCure(boolean yellowDicoverdCure) {
+		this.yellowDicoverdCure = yellowDicoverdCure;
 	}
 
 	public void loop() {

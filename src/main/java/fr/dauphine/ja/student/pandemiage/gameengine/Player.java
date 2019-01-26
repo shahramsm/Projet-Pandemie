@@ -35,7 +35,7 @@ public class Player implements PlayerInterface {
 		} else {
 			for (int i = 0; i < l.size(); i++) {
 				if (!(this.l.get(i).getAction().equals("moveTo"))) {
-					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
 				}
 			}
 			this.location = cityName;
@@ -50,7 +50,7 @@ public class Player implements PlayerInterface {
 		} else {
 			for (int i = 0; i < l.size(); i++) {
 				if (!(this.l.get(i).getAction().equals("flyTo")) && !(this.l.get(i).getCityName().equals(cityName))) {
-					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
 				}
 			}
 			this.location = cityName;
@@ -65,7 +65,7 @@ public class Player implements PlayerInterface {
 		} else {
 			for (int i = 0; i < l.size(); i++) {
 				if (!(this.l.get(i).getAction().equals("flyToCharter"))) {
-					throw new UnauthorizedActionException("l'action n'est pas autorisé");
+					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
 				}
 			}
 			this.location = cityName;
@@ -80,9 +80,54 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void treatDisease(Disease d) throws UnauthorizedActionException {
-		// TODO Auto-generated method stub
-
+		if (this.cpt <= 0) {
+			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		} else {
+			for (int i = 0; i < l.size(); i++) {
+				if (!(this.l.get(i).getAction().equals("treatDisease"))) {
+					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
+				}
+			}
+			for (int i = 0; i < g.getAllCity().size(); i++) {
+				if (g.getAllCity().get(i).getName().equals(location)) {
+					switch (d) {
+					case BLUE:
+						if (g.isBlueDicoverdCure()) {
+							g.getAllCity().get(i).setBlue(0);
+						} else {
+							g.getAllCity().get(i).setBlue(g.getAllCity().get(i).getBlue() - 1);
+						}
+						break;
+					case BLACK:
+						if (g.isBlackDicoverdCure()) {
+							g.getAllCity().get(i).setBlack(0);
+						} else {
+							g.getAllCity().get(i).setBlack(g.getAllCity().get(i).getBlack() - 1);
+						}
+						break;
+					case YELLOW:
+						if (g.isYellowDicoverdCure()) {
+							g.getAllCity().get(i).setYellow(0);
+						} else {
+							g.getAllCity().get(i).setYellow(g.getAllCity().get(i).getYellow() - 1);
+						}
+						break;
+					case RED:
+						if (g.isRedDicoverdCure()) {
+							g.getAllCity().get(i).setRed(0);
+						} else {
+							g.getAllCity().get(i).setRed(g.getAllCity().get(i).getRed() - 1);
+						}
+						break;
+					}
+					cpt--;
+				}
+			}
+		}
 	}
+			
+		
+	
 
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
