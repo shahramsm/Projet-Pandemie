@@ -144,7 +144,7 @@ public class Player implements PlayerInterface {
 		int nbTreatCardYellow = 0;
 		int nbTreatCardBlack = 0;
 		int nbTreatCardRed = 0;
-		l= (List<PlayerCard>) cardNames ;
+	//	l= (List<PlayerCard>) cardNames ;
 		Disease d;
 		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
 		for (int i = 0; i < l.size(); i++) {
