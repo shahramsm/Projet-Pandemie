@@ -98,8 +98,11 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public List<PlayerCardInterface> playerHand() {
-		// TODO Auto-generated method stub
-		return null;
+		List<PlayerCardInterface> playerCardList = new ArrayList<PlayerCardInterface>();
+		for(int i = 0; i < l.size(); i++) {
+			playerCardList.add(l.get(i));
+		}
+		return playerCardList;
 	}
 
 }
