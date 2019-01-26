@@ -12,9 +12,9 @@ public class Player implements PlayerInterface {
 	private String location = "Atlanta";
 	private int cpt;
 	private GameEngine g;
-	private List<PlayerCard> l;
+	private List<PlayerCardInterface> l;
 
-	public Player(GameEngine g, List<PlayerCard> l) {
+	public Player(GameEngine g, List<PlayerCardInterface> l) {
 		this.g = g;
 		this.cpt = 4;
 		this.l = l;
@@ -30,14 +30,10 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName) || !g.allCityNames().contains(cityName)) {
+		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)
+				|| !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getAction().equals("moveTo"))) {
-					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
-				}
-			}
 			this.location = cityName;
 			this.cpt -= 1;
 		}
@@ -49,7 +45,7 @@ public class Player implements PlayerInterface {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
 			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getAction().equals("flyTo")) && !(this.l.get(i).getCityName().equals(cityName))) {
+				if (!(this.l.get(i).getCityName().equals(cityName))) {
 					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
 				}
 			}
@@ -63,11 +59,6 @@ public class Player implements PlayerInterface {
 		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getAction().equals("flyToCharter"))) {
-					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
-				}
-			}
 			this.location = cityName;
 			this.cpt -= 1;
 		}
@@ -83,11 +74,6 @@ public class Player implements PlayerInterface {
 		if (this.cpt <= 0) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
-			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getAction().equals("treatDisease"))) {
-					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
-				}
-			}
 			for (int i = 0; i < g.getAllCity().size(); i++) {
 				if (g.getAllCity().get(i).getName().equals(location)) {
 					switch (d) {
@@ -141,29 +127,24 @@ public class Player implements PlayerInterface {
 		int nbTreatCardYellow = 0;
 		int nbTreatCardBlack = 0;
 		int nbTreatCardRed = 0;
-	//	l= (List<PlayerCard>) cardNames ;
 		Disease d;
-		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
+		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur
+		// possède
 		for (int i = 0; i < l.size(); i++) {
-		Disease d;
-		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur possède
-		for (int i = 0; i < l.size(); i++) {
-			if (this.l.get(i).getAction().equals("treatDisease")) {
-				d = l.get(i).getDisease();
-				switch (d) {
-				case BLUE:
-					nbTreatCardBlue++;
-					break;
-				case YELLOW:
-					nbTreatCardYellow++;
-					break;
-				case BLACK:
-					nbTreatCardBlack++;
-					break;
-				case RED:
-					nbTreatCardRed++;
-					break;
-				}
+			d = cardNames.get(i).getDisease();
+			switch (d) {
+			case BLUE:
+				nbTreatCardBlue++;
+				break;
+			case YELLOW:
+				nbTreatCardYellow++;
+				break;
+			case BLACK:
+				nbTreatCardBlack++;
+				break;
+			case RED:
+				nbTreatCardRed++;
+				break;
 			}
 		}
 		// met à jour le status de la découverte d'un remède
