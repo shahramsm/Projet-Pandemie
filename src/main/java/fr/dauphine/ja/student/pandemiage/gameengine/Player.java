@@ -93,7 +93,7 @@ public class Player implements PlayerInterface {
 					switch (d) {
 					case BLUE:
 						if (g.isBlueDicoverdCure()) {
-							g.setNbCubeBlue(g.getAllCity().get(i).getBlue());
+							g.setNbCubeBlue(g.getAllCity().get(i).getBlue() + g.getNbCubeBlue());
 							g.getAllCity().get(i).setBlue(0);
 							
 						} else {
@@ -103,7 +103,7 @@ public class Player implements PlayerInterface {
 						break;
 					case BLACK:
 						if (g.isBlackDicoverdCure()) {
-							g.setNbCubeBlack(g.getAllCity().get(i).getBlack());
+							g.setNbCubeBlack(g.getAllCity().get(i).getBlack() + g.getNbCubeBlack());
 							g.getAllCity().get(i).setBlack(0);
 						} else {
 							g.getAllCity().get(i).setBlack(g.getAllCity().get(i).getBlack() - 1);
@@ -112,7 +112,7 @@ public class Player implements PlayerInterface {
 						break;
 					case YELLOW:
 						if (g.isYellowDicoverdCure()) {
-							g.setNbCubeYellow(g.getAllCity().get(i).getYellow());
+							g.setNbCubeYellow(g.getAllCity().get(i).getYellow() + g.getNbCubeYellow());
 							g.getAllCity().get(i).setYellow(0);
 						} else {
 							g.getAllCity().get(i).setYellow(g.getAllCity().get(i).getYellow() - 1);
@@ -121,7 +121,7 @@ public class Player implements PlayerInterface {
 						break;
 					case RED:
 						if (g.isRedDicoverdCure()) {
-							g.setNbCubeRed(g.getAllCity().get(i).getRed());
+							g.setNbCubeRed(g.getAllCity().get(i).getRed() + g.getNbCubeRed());
 							g.getAllCity().get(i).setRed(0);
 						} else {
 							g.getAllCity().get(i).setRed(g.getAllCity().get(i).getRed() - 1);
