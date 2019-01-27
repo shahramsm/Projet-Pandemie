@@ -116,6 +116,8 @@ public class GameEngine implements GameInterface {
 						listStateAttribut.get(6), listStateAttribut.get(7), listStateAttribut.get(8),
 						listStateAttribut.get(9));
 				listState.add(c);
+				PlayerCard playerCard = new PlayerCard(listStateAttribut.get(1), d);
+				playerCardList.add(playerCard);
 				InfectionCard infectionCard = new InfectionCard(listStateAttribut.get(1), d);
 				infectionCardList.add(infectionCard);
 			}
@@ -143,6 +145,7 @@ public class GameEngine implements GameInterface {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
 	}
 

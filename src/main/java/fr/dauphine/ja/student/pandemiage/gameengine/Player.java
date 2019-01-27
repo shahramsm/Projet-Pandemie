@@ -60,6 +60,11 @@ public class Player implements PlayerInterface {
 		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("l'action n'est pas autorisé");
 		} else {
+			for (int i = 0; i < l.size(); i++) {
+				if (!(this.l.get(i).getCityName().equals(this.location))) {
+					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
+				}
+			}
 			this.location = cityName;
 			this.cpt -= 1;
 		}
