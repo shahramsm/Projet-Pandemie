@@ -41,7 +41,10 @@ public class GameEngine implements GameInterface {
 	private boolean blackDiscoveredCure = false;
 	private boolean redDiscoveredCure = false;
 	private int nbEpidemi = 0;
-	private int nbOutbreaks=0;
+	private int nbOutbreaks = 0;
+	private int nbPlayerCard = 59;
+	private List<InfectionCard> infectionCardList;
+	private List<PlayerCard> playerCardList;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -282,8 +285,6 @@ public class GameEngine implements GameInterface {
 	public void setNbEpidemi(int nbEpidemi) {
 		this.nbEpidemi = nbEpidemi;
 	}
-	
-	
 
 	public void setNbOutbreaks(int nbOutbreaks) {
 		this.nbOutbreaks = nbOutbreaks;
@@ -429,8 +430,13 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public int getNbPlayerCardsLeft() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return nbPlayerCard;
+	}
+
+	public InfectionCard getInfectionCard() {
+		InfectionCard infectionCard = this.infectionCardList.get(infectionCardList.size() - 1);
+		this.infectionCardList.remove(infectionCardList.size() - 1);
+		return infectionCard;
 	}
 
 }

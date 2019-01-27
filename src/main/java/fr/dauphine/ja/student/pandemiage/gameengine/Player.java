@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.dauphine.ja.pandemiage.common.Disease;
+import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
@@ -295,5 +296,13 @@ public class Player implements PlayerInterface {
 				break;
 			}
 		}
+	}
+
+	public List<InfectionCard> discard() {
+		List<InfectionCard> discard = new ArrayList<>();
+		for (int i = 0; i < g.infectionRate(); i++) {
+			discard.add(g.getInfectionCard());
+		}
+		return discard;
 	}
 }
