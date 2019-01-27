@@ -1,6 +1,7 @@
 package fr.dauphine.ja.student.pandemiage.gameengine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,11 +110,14 @@ public class GameEngine implements GameInterface {
 						listStateAttribut.add(eElement.getElementsByTagName("data").item(i).getTextContent());
 					}
 				}
+				Disease d = convertColor(listStateAttribut.get(5), listStateAttribut.get(6), listStateAttribut.get(7));
 				City c = new City(listStateAttribut.get(0), listStateAttribut.get(1), listStateAttribut.get(2),
 						listStateAttribut.get(3), listStateAttribut.get(4), listStateAttribut.get(5),
 						listStateAttribut.get(6), listStateAttribut.get(7), listStateAttribut.get(8),
 						listStateAttribut.get(9));
 				listState.add(c);
+				InfectionCard infectionCard = new InfectionCard(listStateAttribut.get(1), d);
+				infectionCardList.add(infectionCard);
 			}
 
 			NodeList nList1 = document.getElementsByTagName("edge");
@@ -139,7 +143,24 @@ public class GameEngine implements GameInterface {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		Collections.shuffle(infectionCardList);
+	}
 
+	public Disease convertColor(String r, String g, String b) {
+		Disease d = null;
+		if (r.equals("107") && g.equals("112") && b.equals("184")) {
+			d = Disease.BLUE;
+		}
+		if (r.equals("153") && g.equals("153") && b.equals("153")) {
+			d = Disease.BLACK;
+		}
+		if (r.equals("242") && g.equals("255") && b.equals("0")) {
+			d = Disease.YELLOW;
+		}
+		if (r.equals("153") && g.equals("18") && b.equals("21")) {
+			d = Disease.RED;
+		}
+		return d;
 	}
 
 	public ArrayList<City> getAllCity() {
