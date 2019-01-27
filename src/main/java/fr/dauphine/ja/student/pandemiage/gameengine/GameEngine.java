@@ -358,8 +358,17 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public int infectionRate() {
-		// TODO
-		throw new UnsupportedOperationException();
+		int infectionRate = 0;
+		if (nbEpidemi <= 3 && nbEpidemi > 0) {
+			infectionRate = 2;
+		} else if (nbEpidemi <= 5 && nbEpidemi > 3) {
+			infectionRate = 3;
+		} else if (nbEpidemi <= 7 && nbEpidemi > 5) {
+			infectionRate = 4;
+		} else {
+			return 0;
+		}
+		return infectionRate;
 	}
 
 	@Override
