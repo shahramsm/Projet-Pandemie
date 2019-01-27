@@ -128,7 +128,8 @@ public class Player implements PlayerInterface {
 		int nbTreatCardBlack = 0;
 		int nbTreatCardRed = 0;
 		Disease d;
-		// vérifie le nombre de cartes traitement pour chaque maladie que le joueur
+		// vérifie le nombre de cartes traitement pour chaque maladie que le
+		// joueur
 		// possède
 		for (int i = 0; i < l.size(); i++) {
 			d = cardNames.get(i).getDisease();
@@ -174,4 +175,125 @@ public class Player implements PlayerInterface {
 		return playerCardList;
 	}
 
+	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
+		if (!g.allCityNames().contains(cityName)) {
+			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		} else {
+			int nbCub;
+			switch (d) {
+			case BLUE:
+				nbCub = 0;
+				for (int i = 0; i < g.getAllCity().size(); i++) {
+					if (g.getAllCity().get(i).getName().equals(cityName)) {
+						nbCub = g.getAllCity().get(i).getBlue();
+						if (nbCub == 2) {
+							g.setNbEpidemi(g.getNbEpidemi() + 1);
+							g.getAllCity().get(i).setBlue(nbCub + 1);
+							g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+						} else if (nbCub == 3) {
+							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+							List<String> neighbours = g.neighbours(cityName);
+							if (neighbours.size() > 0) {
+								for (int j = 0; j < neighbours.size(); j++) {
+									for (int k = 0; k < g.getAllCity().size(); k++) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+											infect(g.getAllCity().get(k).getName(), Disease.BLUE);
+										}
+									}
+								}
+							}
+						} else {
+							g.getAllCity().get(i).setBlue(nbCub + 1);
+							g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+						}
+					}
+				}
+				break;
+			case YELLOW:
+				nbCub = 0;
+				for (int i = 0; i < g.getAllCity().size(); i++) {
+					if (g.getAllCity().get(i).getName().equals(cityName)) {
+						nbCub = g.getAllCity().get(i).getYellow();
+						if (nbCub == 2) {
+							g.setNbEpidemi(g.getNbEpidemi() + 1);
+							g.getAllCity().get(i).setYellow(nbCub + 1);
+							g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+						} else if (nbCub == 3) {
+							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+							List<String> neighbours = g.neighbours(cityName);
+							if (neighbours.size() > 0) {
+								for (int j = 0; j < neighbours.size(); j++) {
+									for (int k = 0; k < g.getAllCity().size(); k++) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+											infect(g.getAllCity().get(k).getName(), Disease.YELLOW);
+										}
+									}
+								}
+							}
+						} else {
+							g.getAllCity().get(i).setYellow(nbCub + 1);
+							g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+						}
+					}
+				}
+				break;
+			case BLACK:
+				nbCub = 0;
+				for (int i = 0; i < g.getAllCity().size(); i++) {
+					if (g.getAllCity().get(i).getName().equals(cityName)) {
+						nbCub = g.getAllCity().get(i).getBlack();
+						if (nbCub == 2) {
+							g.setNbEpidemi(g.getNbEpidemi() + 1);
+							g.getAllCity().get(i).setBlack(nbCub + 1);
+							g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+						} else if (nbCub == 3) {
+							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+							List<String> neighbours = g.neighbours(cityName);
+							if (neighbours.size() > 0) {
+								for (int j = 0; j < neighbours.size(); j++) {
+									for (int k = 0; k < g.getAllCity().size(); k++) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+											infect(g.getAllCity().get(k).getName(), Disease.BLACK);
+										}
+									}
+								}
+							}
+						} else {
+							g.getAllCity().get(i).setBlack(nbCub + 1);
+							g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+						}
+					}
+				}
+				break;
+			case RED:
+				nbCub = 0;
+				for (int i = 0; i < g.getAllCity().size(); i++) {
+					if (g.getAllCity().get(i).getName().equals(cityName)) {
+						nbCub = g.getAllCity().get(i).getRed();
+						if (nbCub == 2) {
+							g.setNbEpidemi(g.getNbEpidemi() + 1);
+							g.getAllCity().get(i).setRed(nbCub + 1);
+							g.setNbCubeRed(g.getNbCubeRed() - 1);
+						} else if (nbCub == 3) {
+							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+							List<String> neighbours = g.neighbours(cityName);
+							if (neighbours.size() > 0) {
+								for (int j = 0; j < neighbours.size(); j++) {
+									for (int k = 0; k < g.getAllCity().size(); k++) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+											infect(g.getAllCity().get(k).getName(), Disease.RED);
+										}
+									}
+								}
+							}
+						} else {
+							g.getAllCity().get(i).setRed(nbCub + 1);
+							g.setNbCubeRed(g.getNbCubeRed() - 1);
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
 }

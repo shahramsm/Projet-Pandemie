@@ -41,6 +41,7 @@ public class GameEngine implements GameInterface {
 	private boolean blackDiscoveredCure = false;
 	private boolean redDiscoveredCure = false;
 	private int nbEpidemi = 0;
+	private int nbOutbreaks=0;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -281,6 +282,12 @@ public class GameEngine implements GameInterface {
 	public void setNbEpidemi(int nbEpidemi) {
 		this.nbEpidemi = nbEpidemi;
 	}
+	
+	
+
+	public void setNbOutbreaks(int nbOutbreaks) {
+		this.nbOutbreaks = nbOutbreaks;
+	}
 
 	public void loop() {
 		// Load Ai from Jar file
@@ -417,8 +424,7 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public int getNbOutbreaks() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return nbOutbreaks;
 	}
 
 	@Override
