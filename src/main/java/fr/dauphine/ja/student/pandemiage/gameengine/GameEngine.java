@@ -32,14 +32,15 @@ public class GameEngine implements GameInterface {
 	private boolean yellowCured = false;
 	private boolean blackCured = false;
 	private boolean redCured = false;
-	private int nbCubeRed =24;
-	private int nbCubeBlack =24;
-	private int nbCubeBlue =24;
-	private int nbCubeYellow =24;
+	private int nbCubeRed = 24;
+	private int nbCubeBlack = 24;
+	private int nbCubeBlue = 24;
+	private int nbCubeYellow = 24;
 	private boolean blueDiscoveredCure = false;
 	private boolean yellowDiscoveredCure = false;
 	private boolean blackDiscoveredCure = false;
 	private boolean redDiscoveredCure = false;
+	private int nbEpidemi = 0;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -77,11 +78,10 @@ public class GameEngine implements GameInterface {
 		System.err.println("Nb-player-cards-left:" + getNbPlayerCardsLeft());
 	}
 
-	public GameEngine(String cityGraphFilename, String aiJar ) {
+	public GameEngine(String cityGraphFilename, String aiJar) {
 		this.cityGraphFilename = cityGraphFilename;
 		this.aiJar = aiJar;
 		this.gameStatus = GameStatus.ONGOING;
-		
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -272,6 +272,14 @@ public class GameEngine implements GameInterface {
 
 	public void setYellowDicoverdCure(boolean yellowDicoverdCure) {
 		this.yellowDiscoveredCure = yellowDicoverdCure;
+	}
+
+	public int getNbEpidemi() {
+		return nbEpidemi;
+	}
+
+	public void setNbEpidemi(int nbEpidemi) {
+		this.nbEpidemi = nbEpidemi;
 	}
 
 	public void loop() {
