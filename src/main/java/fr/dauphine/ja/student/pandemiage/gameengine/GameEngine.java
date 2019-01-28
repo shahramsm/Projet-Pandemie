@@ -17,6 +17,7 @@ import fr.dauphine.ja.pandemiage.common.DefeatReason;
 import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.GameStatus;
+import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
 
 /**
  * Empty GameEngine implementing GameInterface
@@ -43,9 +44,10 @@ public class GameEngine implements GameInterface {
 	private boolean redDiscoveredCure = false;
 	private int nbEpidemi = 0;
 	private int nbOutbreaks = 0;
-	private int nbPlayerCard = 59;
+	private int nbPlayerCard = 54;
 	private List<InfectionCard> infectionCardList;
-	private List<PlayerCard> playerCardList;
+	private List<PlayerCardInterface> playerCardList;
+	private List<InfectionCard> infectionCardListDiscard;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -145,8 +147,46 @@ public class GameEngine implements GameInterface {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		for (int i = 0; i < 6; i++) {
+			PlayerCard p = new PlayerCard(null, null);
+			playerCardList.add(p);
+		}
 		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
+		Player p = new Player(this, playerCardList);
+		for (int j = 0; j < 3; j++) {
+			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			try {
+				this.nbEpidemi++;
+				for (int k = 0; k < 3; k++) {
+					p.infect(i.getCityName(), i.getDisease());
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		for (int j = 0; j < 3; j++) {
+			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			try {
+				for (int k = 0; k < 2; k++) {
+					p.infect(i.getCityName(), i.getDisease());
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		
+		for (int j = 0; j < 3; j++) {
+			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			try {
+				p.infect(i.getCityName(), i.getDisease());
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 	}
 
 	public Disease convertColor(String r, String g, String b) {
@@ -437,7 +477,9 @@ public class GameEngine implements GameInterface {
 				break;
 			}
 
-			if (il == 0 && isCured(d)) // Si le niveau d'infection est nul et qu'il existe un remede dans cette ville
+			if (il == 0 && isCured(d)) // Si le niveau d'infection est nul et
+										// qu'il existe un remede dans cette
+										// ville
 			{
 				continue A;
 			} else
