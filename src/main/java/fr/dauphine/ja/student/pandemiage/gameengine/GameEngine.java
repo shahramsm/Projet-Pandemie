@@ -371,9 +371,7 @@ public class GameEngine implements GameInterface {
 
 		while (gameStatus == GameStatus.ONGOING) {
 			// fait 4 actions
-			for (int i = 0; i < 4; i++) {
-				ai.playTurn(this, p);
-			}
+			ai.playTurn(this, p);
 			// pioche 2 cartes joueur
 			for (int i = 0; i < 2; i++) {
 				if (playerCardList.size() < 2) {
