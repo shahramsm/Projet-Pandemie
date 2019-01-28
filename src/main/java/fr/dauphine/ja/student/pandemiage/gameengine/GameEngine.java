@@ -48,7 +48,8 @@ public class GameEngine implements GameInterface {
 	private List<InfectionCard> infectionCardList;
 	private List<PlayerCardInterface> playerCardList;
 	private List<InfectionCard> infectionCardListDiscard;
-
+	private List<PlayerCardInterface> playerCardListDiscard;
+	
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
 		gameStatus = GameStatus.DEFEATED;
@@ -154,6 +155,11 @@ public class GameEngine implements GameInterface {
 		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
 		Player p = new Player(this, playerCardList);
+		for(int i=0;i<5;i++){
+			playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
+			PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
+			p.setPlayerHand(p.playerHand(),pc);
+		}
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);

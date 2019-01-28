@@ -166,19 +166,20 @@ public class Player implements PlayerInterface {
 		}
 		cpt--;
 	}
-
+	
 	@Override
 	public String playerLocation() {
 		return this.location;
 	}
+	
+
+	public void setPlayerHand(List<PlayerCardInterface> l, PlayerCardInterface pc) {
+		l.add(pc);
+	}
 
 	@Override
 	public List<PlayerCardInterface> playerHand() {
-		List<PlayerCardInterface> playerCardList = new ArrayList<PlayerCardInterface>();
-		for (int i = 0; i < l.size(); i++) {
-			playerCardList.add(l.get(i));
-		}
-		return playerCardList;
+		return this.l;
 	}
 
 	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
