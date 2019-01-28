@@ -304,11 +304,11 @@ public class Player implements PlayerInterface {
 		}
 	}
 
-	public List<InfectionCard> discard() {
+	/*public List<InfectionCard> discard() {
 		List<InfectionCard> discard = new ArrayList<>();
 		for (int i = 0; i < g.infectionRate(); i++) {
 			discard.add(g.getInfectionCard());
 		}
 		return discard;
-	}
+	}*/
 }

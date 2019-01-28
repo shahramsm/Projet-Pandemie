@@ -18,6 +18,7 @@ import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.GameStatus;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
+import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 
 /**
  * Empty GameEngine implementing GameInterface
@@ -28,6 +29,7 @@ public class GameEngine implements GameInterface {
 	private final String aiJar;
 	private final String cityGraphFilename;
 	private GameStatus gameStatus;
+	private final int maxHandSize = 9;
 	private ArrayList<City> allCity;
 	private int turnDuration = 1;
 	private boolean blueCured = false;
@@ -49,7 +51,8 @@ public class GameEngine implements GameInterface {
 	private List<PlayerCardInterface> playerCardList;
 	private List<InfectionCard> infectionCardListDiscard;
 	private List<PlayerCardInterface> playerCardListDiscard;
-	
+	private List<PlayerCardInterface> playerHand = new ArrayList();
+
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
 		gameStatus = GameStatus.DEFEATED;
@@ -154,11 +157,11 @@ public class GameEngine implements GameInterface {
 		}
 		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
-		Player p = new Player(this, playerCardList);
-		for(int i=0;i<5;i++){
+		Player p = new Player(this, playerHand);
+		for (int i = 0; i < 5; i++) {
 			playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 			PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
-			p.setPlayerHand(p.playerHand(),pc);
+			p.setPlayerHand(p.playerHand(), pc);
 		}
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
@@ -183,7 +186,7 @@ public class GameEngine implements GameInterface {
 				System.out.println(e);
 			}
 		}
-		
+
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
@@ -364,14 +367,58 @@ public class GameEngine implements GameInterface {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);
 		AiInterface ai = AiLoader.loadAi(aiJar);
+		Player p = new Player(this, playerHand);
 
-		// Very basic game loop
 		while (gameStatus == GameStatus.ONGOING) {
-
-			if (Math.random() < 0.5)
-				setDefeated("Game not implemented.", DefeatReason.UNKN);
-			else
+			// fait 4 actions
+			for (int i = 0; i < 4; i++) {
+				ai.playTurn(this, p);
+			}
+			// pioche 2 cartes joueur
+			for (int i = 0; i < 2; i++) {
+				if (playerCardList.size() < 2) {
+					setDefeated("Lost game. No more player cards.", DefeatReason.NO_MORE_PLAYER_CARDS);
+				} else {
+					playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
+					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
+					if (pc.getCityName().equals(null) && pc.getDisease().equals(null)) {
+						infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+						InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
+						// infecte 3 fois la même ville
+						for (int j = 0; j < 3; j++) {
+							try {
+								p.infect(ic.getCityName(), ic.getDisease());
+							} catch (Exception e) {
+								System.out.println(e);
+							}
+						}
+						Collections.shuffle(infectionCardListDiscard);
+						infectionCardList.addAll(infectionCardListDiscard);
+						infectionCardListDiscard.removeAll(infectionCardListDiscard);
+					} else {
+						p.setPlayerHand(p.playerHand(), pc);
+					}
+				}
+			}
+			ai.discard(this, p, this.maxHandSize, this.nbEpidemi);
+			// joue le rôle de l'infecteur en fonction du taux d'infection
+			for (int i = 0; i < infectionRate(); i++) {
+				infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+				InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
+				try {
+					p.infect(ic.getCityName(), ic.getDisease());
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+			if (isBlueDiscoveredCure() == true && isBlackDiscoveredCure() == true && isYellowDiscoveredCure() == true
+					&& isRedDiscoveredCure() == true) {
 				setVictorious();
+			} else if (getNbCubeBlue() == 0 || getNbCubeBlack() == 0 || getNbCubeYellow() == 0 || getNbCubeRed() == 0) {
+				setDefeated("Lost game. No more blocks.", DefeatReason.NO_MORE_BLOCKS);
+			} else if (getNbOutbreaks() == 8) {
+				setDefeated("Lost game. Too many outbreaks.", DefeatReason.TOO_MANY_OUTBREAKS);
+			}
 		}
 	}
 
