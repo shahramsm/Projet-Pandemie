@@ -19,6 +19,7 @@ import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.GameStatus;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerInterface;
+import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 /**
  * Empty GameEngine implementing GameInterface
@@ -93,6 +94,10 @@ public class GameEngine implements GameInterface {
 		this.cityGraphFilename = cityGraphFilename;
 		this.aiJar = aiJar;
 		this.gameStatus = GameStatus.ONGOING;
+		playerCardList = new ArrayList<PlayerCardInterface>();
+		infectionCardList = new ArrayList<InfectionCard>();
+		playerCardListDiscard = new ArrayList<PlayerCardInterface>();
+		infectionCardListDiscard = new ArrayList<InfectionCard>();
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -152,7 +157,7 @@ public class GameEngine implements GameInterface {
 			System.out.println(e);
 		}
 		for (int i = 0; i < 6; i++) {
-			PlayerCard p = new PlayerCard(null, null);
+			PlayerCardInterface p = new PlayerCard(null, null);
 			playerCardList.add(p);
 		}
 		Collections.shuffle(playerCardList);
@@ -432,10 +437,14 @@ public class GameEngine implements GameInterface {
 	@Override
 	public List<String> neighbours(String cityName) {
 		ArrayList<String> neighbours = new ArrayList<String>();
-		for (int i = 0; i < allCity.size(); i++) {
-			if (cityName.equals(allCity.get(i).getName())) {
-				neighbours = allCity.get(i).getNeighbours();
+		try {
+			for (int i = 0; i < allCity.size(); i++) {
+				if (cityName.equals(allCity.get(i).getName())) {
+					neighbours = allCity.get(i).getNeighbours();
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("pas de voisins.");
 		}
 		return neighbours;
 	}
