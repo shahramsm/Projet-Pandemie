@@ -384,7 +384,7 @@ public class GameEngine implements GameInterface {
 				} else {
 					playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
-					if (pc.getCityName().equals(null) && pc.getDisease().equals(null)) {
+					if (pc.getCityName()==null && pc.getDisease()==null) {
 						infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 						InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
 						// infecte 3 fois la même ville
