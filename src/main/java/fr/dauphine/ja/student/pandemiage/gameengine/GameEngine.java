@@ -384,7 +384,7 @@ public class GameEngine implements GameInterface {
 				} else {
 					playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
-					if (pc.getCityName()==null && pc.getDisease()==null) {
+					if (pc.getCityName() == null && pc.getDisease() == null) {
 						infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 						InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
 						// infecte 3 fois la même ville
@@ -437,15 +437,18 @@ public class GameEngine implements GameInterface {
 	@Override
 	public List<String> neighbours(String cityName) {
 		ArrayList<String> neighbours = new ArrayList<String>();
-		try {
-			for (int i = 0; i < allCity.size(); i++) {
-				if (cityName.equals(allCity.get(i).getName())) {
-					neighbours = allCity.get(i).getNeighbours();
+		for (int i = 0; i < allCity.size(); i++) {
+			if (cityName.equals(allCity.get(i).getName())) {
+				neighbours = allCity.get(i).getNeighbours();
+				for (int j = 0; j < allCity.size(); j++) {
+					if (allCity.get(j).getNeighbours().contains(cityName)
+							&& (!allCity.get(i).getNeighbours().contains(allCity.get(j).getName()))) {
+						allCity.get(i).getNeighbours().add(allCity.get(j).getName());
+					}
 				}
 			}
-		} catch (Exception e) {
-			System.out.println("pas de voisins.");
 		}
+		System.out.println("ville" + allCity.get(5).getName() + " : " + allCity.get(5).getNeighbours());
 		return neighbours;
 	}
 
