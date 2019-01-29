@@ -10,7 +10,7 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 
 public class Player implements PlayerInterface {
-	private String location = "Atlanta";
+	private String location = "Algiers";
 	private int cpt;
 	private GameEngine g;
 	private List<PlayerCardInterface> l;
