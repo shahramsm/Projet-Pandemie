@@ -12,7 +12,7 @@ import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 public class StupidAi implements AiInterface {
 	@Override
 	public void playTurn(GameInterface g, PlayerInterface p) {
-		for(int i=0;i<2;++i) {
+		for(int i=0;i<4;++i) {
 			try {
 				p.moveTo(g.neighbours(p.playerLocation()).get(0));
 			} catch (UnauthorizedActionException e) {
