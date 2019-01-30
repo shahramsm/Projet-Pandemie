@@ -49,7 +49,7 @@ public class Ia implements AiInterface {
 	@Override
 	public void playTurn(GameInterface g, PlayerInterface p) {
 		Random random = new Random();
-		int d = random.nextInt(5 - 1 + 1) + 1;
+		int d = random.nextInt(6 - 1 + 1) + 1;
 		
 		switch (d) {
 		case 1:
@@ -153,6 +153,15 @@ public class Ia implements AiInterface {
 				playTurn(g, p);
 			}
 			break;
+			
+		case 6: 
+			try {
+				p.discoverCure(p.playerHand());
+			} catch (UnauthorizedActionException e) {
+				e.printStackTrace();
+			}
+			break;
+			
 		}
 
 			
