@@ -369,6 +369,39 @@ public class GameEngine implements GameInterface {
 		this.nbOutbreaks = nbOutbreaks;
 	}
 
+	
+	public List<InfectionCard> getInfectionCardList() {
+		return infectionCardList;
+	}
+
+	public void setInfectionCardList(List<InfectionCard> infectionCardList) {
+		this.infectionCardList = infectionCardList;
+	}
+
+	public List<PlayerCardInterface> getPlayerCardList() {
+		return playerCardList;
+	}
+
+	public void setPlayerCardList(List<PlayerCardInterface> playerCardList) {
+		this.playerCardList = playerCardList;
+	}
+
+	public List<InfectionCard> getInfectionCardListDiscard() {
+		return infectionCardListDiscard;
+	}
+
+	public void setInfectionCardListDiscard(List<InfectionCard> infectionCardListDiscard) {
+		this.infectionCardListDiscard = infectionCardListDiscard;
+	}
+
+	public List<PlayerCardInterface> getPlayerCardListDiscard() {
+		return playerCardListDiscard;
+	}
+
+	public void setPlayerCardListDiscard(List<PlayerCardInterface> playerCardListDiscard) {
+		this.playerCardListDiscard = playerCardListDiscard;
+	}
+
 	public void loop() {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);
