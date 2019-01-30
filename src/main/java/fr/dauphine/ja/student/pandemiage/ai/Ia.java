@@ -11,7 +11,7 @@ import fr.dauphine.ja.pandemiage.common.PlayerInterface;
 import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 import fr.dauphine.ja.pandemiage.common.Disease;
 
-public class IA implements AiInterface {
+public class Ia implements AiInterface {
 
 /*	public void Shine(int p, GameEngine g){
 		if(p=0){
@@ -232,7 +232,6 @@ public class IA implements AiInterface {
 			break;
 		*/
 		
-			
 			}
 
 	@Override
@@ -243,6 +242,7 @@ public class IA implements AiInterface {
 		for(int i = 0; i < numdiscard; i++)
 			discard.add(p.playerHand().get(i)); 
 
+		
 		return discard;
 	}
 	
