@@ -156,18 +156,19 @@ public class GameEngine implements GameInterface {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		for (int i = 0; i < 6; i++) {
-			PlayerCardInterface p = new PlayerCard(null, null);
-			playerCardList.add(p);
-		}
-		Collections.shuffle(playerCardList);
-		Collections.shuffle(infectionCardList);
 		Player p = new Player(this, playerHand);
+		Collections.shuffle(playerCardList);
 		for (int i = 0; i < 5; i++) {
 			playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 			PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
 			p.setPlayerHand(p.playerHand(), pc);
 		}
+		for (int i = 0; i < 6; i++) {
+			PlayerCardInterface pc = new PlayerCard(null, null);
+			playerCardList.add(pc);
+		}
+		Collections.shuffle(playerCardList);
+		Collections.shuffle(infectionCardList);
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
@@ -368,15 +369,50 @@ public class GameEngine implements GameInterface {
 		this.nbOutbreaks = nbOutbreaks;
 	}
 
+	
+	public List<InfectionCard> getInfectionCardList() {
+		return infectionCardList;
+	}
+
+	public void setInfectionCardList(List<InfectionCard> infectionCardList) {
+		this.infectionCardList = infectionCardList;
+	}
+
+	public List<PlayerCardInterface> getPlayerCardList() {
+		return playerCardList;
+	}
+
+	public void setPlayerCardList(List<PlayerCardInterface> playerCardList) {
+		this.playerCardList = playerCardList;
+	}
+
+	public List<InfectionCard> getInfectionCardListDiscard() {
+		return infectionCardListDiscard;
+	}
+
+	public void setInfectionCardListDiscard(List<InfectionCard> infectionCardListDiscard) {
+		this.infectionCardListDiscard = infectionCardListDiscard;
+	}
+
+	public List<PlayerCardInterface> getPlayerCardListDiscard() {
+		return playerCardListDiscard;
+	}
+
+	public void setPlayerCardListDiscard(List<PlayerCardInterface> playerCardListDiscard) {
+		this.playerCardListDiscard = playerCardListDiscard;
+	}
+
 	public void loop() {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);
 		AiInterface ai = AiLoader.loadAi(aiJar);
 		Player p = new Player(this, playerHand);
+		p.setPlayerHand(p.playerHand(), new PlayerCard("Atlanta",Disease.BLUE));
 
 		while (gameStatus == GameStatus.ONGOING) {
 			// fait 4 actions
 			ai.playTurn(this, p);
+			p.setCpt(4);
 			// pioche 2 cartes joueur
 			for (int i = 0; i < 2; i++) {
 				if (playerCardList.size() < 2) {
@@ -386,11 +422,12 @@ public class GameEngine implements GameInterface {
 					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
 					if (pc.getCityName() == null && pc.getDisease() == null) {
 						infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+						String cityInfect = infectionCardList.get(infectionCardList.size() - 1).getCityName();
 						InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
 						// infecte 3 fois la même ville
 						for (int j = 0; j < 3; j++) {
 							try {
-								p.infect(ic.getCityName(), ic.getDisease());
+								p.infect(cityInfect, ic.getDisease());
 							} catch (Exception e) {
 								System.out.println(e);
 							}
@@ -407,9 +444,10 @@ public class GameEngine implements GameInterface {
 			// joue le rôle de l'infecteur en fonction du taux d'infection
 			for (int i = 0; i < infectionRate(); i++) {
 				infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
+				String cityInfect = infectionCardList.get(infectionCardList.size() - 1).getCityName();
 				InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
 				try {
-					p.infect(ic.getCityName(), ic.getDisease());
+					p.infect(cityInfect, ic.getDisease());
 				} catch (Exception e) {
 					System.out.println(e);
 				}
@@ -448,7 +486,6 @@ public class GameEngine implements GameInterface {
 				}
 			}
 		}
-		System.out.println("ville" + allCity.get(5).getName() + " : " + allCity.get(5).getNeighbours());
 		return neighbours;
 	}
 
