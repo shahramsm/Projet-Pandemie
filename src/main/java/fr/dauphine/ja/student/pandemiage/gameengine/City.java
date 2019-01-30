@@ -16,6 +16,7 @@ public class City {
 	private String b;
 	private String x;
 	private String y;
+	private Disease d;
 	private int blue = 0;
 	private int yellow = 0;
 	private int black = 0;
@@ -23,7 +24,7 @@ public class City {
 	private ArrayList<String> neighbours = new ArrayList<String>();
 
 	public City(String id, String name, String eigencentrality, String degree, String size, String r, String g,
-			String b, String x, String y) {
+			String b, String x, String y, Disease d) {
 		this.id = id;
 		this.name = name;
 		this.eigencentrality = eigencentrality;
@@ -34,6 +35,7 @@ public class City {
 		this.b = b;
 		this.x = x;
 		this.y = y;
+		this.d = d;
 	}
 
 	public String getId() {
@@ -154,6 +156,14 @@ public class City {
 
 	public void setNeighbours(ArrayList<String> neighbours) {
 		this.neighbours = neighbours;
+	}
+
+	public Disease getD() {
+		return d;
+	}
+
+	public void setD(Disease d) {
+		this.d = d;
 	}
 
 	@Override

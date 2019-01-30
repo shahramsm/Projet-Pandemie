@@ -82,7 +82,7 @@ public class Gui extends Application{
         
         
         // Background pandemic
-        final ImageView selectedImage = new ImageView();   
+        final ImageView imageView = new ImageView();   
         Image image = new Image(Gui.class.getResourceAsStream("image.jpg"));
         
         imageView.setImage(image);
@@ -116,37 +116,18 @@ public class Gui extends Application{
 	 *  @param ArrayList<City> cities
 	 *  @return ArrayList<Circle> circles
 	 */
-    
-
-    
-    	for(City c : cities) {
-    		Circle circle = new Circle();
-        	circle.setRadius(10);
-    		String d = "RED";
-    		switch (d) {
-    		case "RED" : 
-    			circle.setFill(Color.RED);
-    			break;
-    		case "BLUE":
-    			circle.setFill(Color.BLUE);
-    			break;
-    		case "YELLOW": 
-    			circle.setFill(Color.YELLOW);
-    			break;
-    		case "BLACK" : 
-    			circle.setFill(Color.BLACK);
-    			break;
-    		}
-    		if(Double.parseDouble(c.getX())>800) {
-    			circle.setCenterX(Math.abs(Double.parseDouble(c.getX()))-200);
-        		circle.setCenterY(Math.abs(Double.parseDouble(c.getY())/2));
-        		circles.add(circle);
-        		System.out.println(circle);
+	
+	
+	public static ArrayList<Circle> createCircles(ArrayList<City> cities) {
+		ArrayList<Circle> circles = new ArrayList<>();    
+    	
+		for(City c : cities) {
+    			Circle circle = new Circle();
+    			circle.setRadius(10);
     			
-    		}
-    		else {
-    			circle.setCenterX(Math.abs(Double.parseDouble(c.getX())));
-        		circle.setCenterY(Math.abs(Double.parseDouble(c.getY())/2));
+    			circle.setCenterX((1600+Double.parseDouble(c.getX()))/2.5);
+        		circle.setCenterY((1500-Double.parseDouble(c.getY()))/2.5);
+        	
         		circles.add(circle);
         		System.out.println(circle);
     	}

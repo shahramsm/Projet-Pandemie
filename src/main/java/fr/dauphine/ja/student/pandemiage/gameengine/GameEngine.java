@@ -125,7 +125,7 @@ public class GameEngine implements GameInterface {
 				City c = new City(listStateAttribut.get(0), listStateAttribut.get(1), listStateAttribut.get(2),
 						listStateAttribut.get(3), listStateAttribut.get(4), listStateAttribut.get(5),
 						listStateAttribut.get(6), listStateAttribut.get(7), listStateAttribut.get(8),
-						listStateAttribut.get(9));
+						listStateAttribut.get(9), d);
 				listState.add(c);
 				PlayerCard playerCard = new PlayerCard(listStateAttribut.get(1), d);
 				playerCardList.add(playerCard);
