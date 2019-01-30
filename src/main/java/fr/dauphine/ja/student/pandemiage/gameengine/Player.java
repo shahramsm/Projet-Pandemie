@@ -13,12 +13,12 @@ public class Player implements PlayerInterface {
 	private String location = "Atlanta";
 	private int cpt;
 	private GameEngine g;
-	private List<PlayerCardInterface> l;
+	private List<PlayerCardInterface> playerHand;
 
-	public Player(GameEngine g, List<PlayerCardInterface> l) {
+	public Player(GameEngine g, List<PlayerCardInterface> playerHand) {
 		this.g = g;
 		this.cpt = 4;
-		this.l = l;
+		this.playerHand = playerHand;
 	}
 
 	public String getLocation() {
@@ -29,12 +29,24 @@ public class Player implements PlayerInterface {
 		this.location = location;
 	}
 
+	public int getCpt() {
+		return cpt;
+	}
+
+	public void setCpt(int cpt) {
+		this.cpt = cpt;
+	}
+
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.neighbours(location).contains(cityName)
-				|| !g.allCityNames().contains(cityName)) {
-			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		if (this.cpt <= 0) {
+			throw new UnauthorizedActionException("Plus d'actions restantes.");
+		} else if (!g.neighbours(location).contains(cityName)) {
+			throw new UnauthorizedActionException("La ville destination n'est pas voisine.");
+		} else if (!g.allCityNames().contains(cityName)) {
+			throw new UnauthorizedActionException("La ville destination ne fait pas parti de la carte");
 		} else {
+			System.out.println("Move from " + this.location + " to " + cityName);
 			this.location = cityName;
 			this.cpt -= 1;
 		}
@@ -42,27 +54,61 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
-			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		if (this.playerHand.size() == 0) {
+			throw new UnauthorizedActionException("Plus de carte dans la main du joueur.");
+		} else if (this.cpt <= 0) {
+			throw new UnauthorizedActionException("Plus d'actions restantes.");
+		} else if (!g.allCityNames().contains(cityName)) {
+			throw new UnauthorizedActionException("La ville destination ne fait pas parti de la carte");
 		} else {
-			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getCityName().equals(cityName))) {
-					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
+			boolean t = true;
+			for (int i = 0; i < this.playerHand.size(); i++) {
+				if (!this.playerHand.get(i).getCityName().equals(cityName)) {
+					t = false;
+				} else {
+					t = true;
+					break;
 				}
 			}
+			if (t == false) {
+				throw new UnauthorizedActionException("vous n'avez pas la carte correspondante" + cityName);
+			}
+			System.out.println("Fly from " + this.location + " to " + cityName);
 			this.location = cityName;
+			for (int i = 0; i < playerHand.size(); i++) {
+				if (this.playerHand.get(i).getCityName().equals(cityName)) {
+					this.playerHand().remove(i);
+				}
+			}
 			this.cpt -= 1;
 		}
 	}
 
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
-		if (this.l.isEmpty() || this.cpt <= 0 || !g.allCityNames().contains(cityName)) {
-			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+		if (this.playerHand.isEmpty()) {
+			throw new UnauthorizedActionException("Plus de carte dans la main du joueur.");
+		} else if (this.cpt <= 0) {
+			throw new UnauthorizedActionException("Plus d'actions restantes.");
+		} else if (!g.allCityNames().contains(cityName)) {
+			throw new UnauthorizedActionException("La ville destination ne fait pas parti de la carte");
 		} else {
-			for (int i = 0; i < l.size(); i++) {
-				if (!(this.l.get(i).getCityName().equals(this.location))) {
-					throw new UnauthorizedActionException("vous n'avez pas la carte correspondante");
+			boolean t = true;
+			for (int i = 0; i < this.playerHand.size(); i++) {
+				if (!this.playerHand.get(i).getCityName().equals(this.location)) {
+					t = false;
+				} else {
+					t = true;
+					break;
+				}
+			}
+			if (t == false) {
+				throw new UnauthorizedActionException("vous n'avez pas la carte correspondante" + cityName);
+			}
+			System.out.println("Fly Charter from " + this.location + " to " + cityName);
+			for (int i = 0; i < playerHand.size(); i++) {
+				if (this.playerHand.get(i).getCityName().equals(this.location)) {
+					this.playerHand().remove(i);
 				}
 			}
 			this.location = cityName;
@@ -78,7 +124,7 @@ public class Player implements PlayerInterface {
 	@Override
 	public void treatDisease(Disease d) throws UnauthorizedActionException {
 		if (this.cpt <= 0) {
-			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+			throw new UnauthorizedActionException("plus d'actions restantes");
 		} else {
 			for (int i = 0; i < g.getAllCity().size(); i++) {
 				if (g.getAllCity().get(i).getName().equals(location)) {
@@ -87,7 +133,6 @@ public class Player implements PlayerInterface {
 						if (g.isBlueDicoverdCure()) {
 							g.setNbCubeBlue(g.getAllCity().get(i).getBlue() + g.getNbCubeBlue());
 							g.getAllCity().get(i).setBlue(0);
-
 						} else {
 							g.getAllCity().get(i).setBlue(g.getAllCity().get(i).getBlue() - 1);
 							g.setNbCubeBlue(g.getNbCubeBlue() + 1);
@@ -127,6 +172,7 @@ public class Player implements PlayerInterface {
 		}
 	}
 
+//ajout des tests pour l'exception
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
 		int nbTreatCardBlue = 0;
@@ -137,7 +183,7 @@ public class Player implements PlayerInterface {
 		// vérifie le nombre de cartes traitement pour chaque maladie que le
 		// joueur
 		// possède
-		for (int i = 0; i < l.size(); i++) {
+		for (int i = 0; i < playerHand.size(); i++) {
 			d = cardNames.get(i).getDisease();
 			switch (d) {
 			case BLUE:
@@ -166,25 +212,24 @@ public class Player implements PlayerInterface {
 		}
 		cpt--;
 	}
-	
+
 	@Override
 	public String playerLocation() {
 		return this.location;
 	}
-	
 
-	public void setPlayerHand(List<PlayerCardInterface> l, PlayerCardInterface pc) {
-		l.add(pc);
+	public void setPlayerHand(List<PlayerCardInterface> playerHand, PlayerCardInterface pc) {
+		playerHand.add(pc);
 	}
 
 	@Override
 	public List<PlayerCardInterface> playerHand() {
-		return this.l;
+		return this.playerHand;
 	}
 
 	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
 		if (!g.allCityNames().contains(cityName)) {
-			throw new UnauthorizedActionException("l'action n'est pas autorisé");
+			throw new UnauthorizedActionException("La ville n'est pas dans la carte.");
 		} else {
 			int nbCub;
 			switch (d) {
@@ -304,11 +349,9 @@ public class Player implements PlayerInterface {
 		}
 	}
 
-	/*public List<InfectionCard> discard() {
-		List<InfectionCard> discard = new ArrayList<>();
-		for (int i = 0; i < g.infectionRate(); i++) {
-			discard.add(g.getInfectionCard());
-		}
-		return discard;
-	}*/
+	/*
+	 * public List<InfectionCard> discard() { List<InfectionCard> discard = new
+	 * ArrayList<>(); for (int i = 0; i < g.infectionRate(); i++) {
+	 * discard.add(g.getInfectionCard()); } return discard; }
+	 */
 }
