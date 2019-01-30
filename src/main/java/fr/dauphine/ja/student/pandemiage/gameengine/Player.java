@@ -54,7 +54,7 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
-		if (this.playerHand.size() == 0) {
+		if (this.playerHand.size() == 0 && this.cpt > 0) {
 			throw new UnauthorizedActionException("Plus de carte dans la main du joueur.");
 		} else if (this.cpt <= 0) {
 			throw new UnauthorizedActionException("Plus d'actions restantes.");

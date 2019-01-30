@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.dauphine.ja.pandemiage.common.AiInterface;
+import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerInterface;
@@ -14,7 +15,9 @@ public class StupidAi implements AiInterface {
 	public void playTurn(GameInterface g, PlayerInterface p) {
 		for(int i=0;i<4;++i) {
 			try {
-				p.moveTo(g.neighbours(p.playerLocation()).get(0));
+				//p.moveTo(g.neighbours(p.playerLocation()).get(0));
+				p.flyTo(p.playerHand().get(0).getCityName());
+				//p.treatDisease(Disease.BLUE);
 			} catch (UnauthorizedActionException e) {
 				e.printStackTrace();
 			}

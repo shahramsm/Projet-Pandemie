@@ -369,7 +369,6 @@ public class GameEngine implements GameInterface {
 		this.nbOutbreaks = nbOutbreaks;
 	}
 
-	
 	public List<InfectionCard> getInfectionCardList() {
 		return infectionCardList;
 	}
