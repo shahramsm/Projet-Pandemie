@@ -171,6 +171,8 @@ public class GameEngine implements GameInterface {
 		}
 		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
+		
+		// première infectation 
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 			String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
