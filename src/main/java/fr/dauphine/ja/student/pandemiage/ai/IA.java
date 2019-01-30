@@ -237,8 +237,14 @@ public class IA implements AiInterface {
 
 	@Override
 	public List<PlayerCardInterface> discard(GameInterface g, PlayerInterface p, int maxHandSize, int nbEpidemicCards) {
-		// TODO Auto-generated method stub
-		return null;
+		List<PlayerCardInterface> discard = new ArrayList<>();
+		int numdiscard = p.playerHand().size() - maxHandSize;  
+
+		for(int i = 0; i < numdiscard; i++)
+			discard.add(p.playerHand().get(i)); 
+
+		return discard;
 	}
+	
 
 }
