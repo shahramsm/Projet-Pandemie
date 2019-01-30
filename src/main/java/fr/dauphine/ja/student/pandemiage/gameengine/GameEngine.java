@@ -48,9 +48,9 @@ public class GameEngine implements GameInterface {
 	private int nbEpidemi = 0;
 	private int nbOutbreaks = 0;
 	private int nbPlayerCard = 54;
-	private List<InfectionCard> infectionCardList;
+	private List<PlayerCardInterface> infectionCardList;
 	private List<PlayerCardInterface> playerCardList;
-	private List<InfectionCard> infectionCardListDiscard;
+	private List<PlayerCardInterface> infectionCardListDiscard;
 	private List<PlayerCardInterface> playerCardListDiscard;
 	private List<PlayerCardInterface> playerHand = new ArrayList();
 
@@ -95,9 +95,9 @@ public class GameEngine implements GameInterface {
 		this.aiJar = aiJar;
 		this.gameStatus = GameStatus.ONGOING;
 		playerCardList = new ArrayList<PlayerCardInterface>();
-		infectionCardList = new ArrayList<InfectionCard>();
+		infectionCardList = new ArrayList<PlayerCardInterface>();
 		playerCardListDiscard = new ArrayList<PlayerCardInterface>();
-		infectionCardListDiscard = new ArrayList<InfectionCard>();
+		infectionCardListDiscard = new ArrayList<PlayerCardInterface>();
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -129,7 +129,8 @@ public class GameEngine implements GameInterface {
 				listState.add(c);
 				PlayerCard playerCard = new PlayerCard(listStateAttribut.get(1), d);
 				playerCardList.add(playerCard);
-				InfectionCard infectionCard = new InfectionCard(listStateAttribut.get(1), d);
+				PlayerCard infectionCard = new PlayerCard(listStateAttribut.get(1), d);
+				System.out.println(playerCard.getCityName());
 				infectionCardList.add(infectionCard);
 			}
 
@@ -162,6 +163,7 @@ public class GameEngine implements GameInterface {
 			playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 			PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
 			p.setPlayerHand(p.playerHand(), pc);
+			setNbPlayerCard(getNbPlayerCardsLeft() - 1);
 		}
 		for (int i = 0; i < 6; i++) {
 			PlayerCardInterface pc = new PlayerCard(null, null);
@@ -171,11 +173,12 @@ public class GameEngine implements GameInterface {
 		Collections.shuffle(infectionCardList);
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
-			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
+			Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+			infectionCardList.remove(infectionCardList.size() - 1);
 			try {
-				this.nbEpidemi++;
 				for (int k = 0; k < 3; k++) {
-					p.infect(i.getCityName(), i.getDisease());
+					p.infect(city, disease);
 				}
 			} catch (Exception e) {
 				System.out.println(e);
@@ -183,10 +186,12 @@ public class GameEngine implements GameInterface {
 		}
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
-			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
+			Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+			infectionCardList.remove(infectionCardList.size() - 1);
 			try {
 				for (int k = 0; k < 2; k++) {
-					p.infect(i.getCityName(), i.getDisease());
+					p.infect(city, disease);
 				}
 			} catch (Exception e) {
 				System.out.println(e);
@@ -195,9 +200,11 @@ public class GameEngine implements GameInterface {
 
 		for (int j = 0; j < 3; j++) {
 			infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
-			InfectionCard i = infectionCardList.remove(infectionCardList.size() - 1);
+			String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
+			Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+			infectionCardList.remove(infectionCardList.size() - 1);
 			try {
-				p.infect(i.getCityName(), i.getDisease());
+				p.infect(city, disease);
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -369,11 +376,11 @@ public class GameEngine implements GameInterface {
 		this.nbOutbreaks = nbOutbreaks;
 	}
 
-	public List<InfectionCard> getInfectionCardList() {
+	public List<PlayerCardInterface> getInfectionCardList() {
 		return infectionCardList;
 	}
 
-	public void setInfectionCardList(List<InfectionCard> infectionCardList) {
+	public void setInfectionCardList(List<PlayerCardInterface> infectionCardList) {
 		this.infectionCardList = infectionCardList;
 	}
 
@@ -385,11 +392,11 @@ public class GameEngine implements GameInterface {
 		this.playerCardList = playerCardList;
 	}
 
-	public List<InfectionCard> getInfectionCardListDiscard() {
+	public List<PlayerCardInterface> getInfectionCardListDiscard() {
 		return infectionCardListDiscard;
 	}
 
-	public void setInfectionCardListDiscard(List<InfectionCard> infectionCardListDiscard) {
+	public void setInfectionCardListDiscard(List<PlayerCardInterface> infectionCardListDiscard) {
 		this.infectionCardListDiscard = infectionCardListDiscard;
 	}
 
@@ -406,7 +413,7 @@ public class GameEngine implements GameInterface {
 		System.out.println("Loading AI Jar file " + aiJar);
 		AiInterface ai = AiLoader.loadAi(aiJar);
 		Player p = new Player(this, playerHand);
-		p.setPlayerHand(p.playerHand(), new PlayerCard("Atlanta",Disease.BLUE));
+		p.setPlayerHand(p.playerHand(), new PlayerCard("Atlanta", Disease.BLUE));
 
 		while (gameStatus == GameStatus.ONGOING) {
 			// fait 4 actions
@@ -422,11 +429,12 @@ public class GameEngine implements GameInterface {
 					if (pc.getCityName() == null && pc.getDisease() == null) {
 						infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 						String cityInfect = infectionCardList.get(infectionCardList.size() - 1).getCityName();
-						InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
+						Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+						infectionCardList.remove(infectionCardList.size() - 1);
 						// infecte 3 fois la même ville
 						for (int j = 0; j < 3; j++) {
 							try {
-								p.infect(cityInfect, ic.getDisease());
+								p.infect(cityInfect, disease);
 							} catch (Exception e) {
 								System.out.println(e);
 							}
@@ -444,9 +452,10 @@ public class GameEngine implements GameInterface {
 			for (int i = 0; i < infectionRate(); i++) {
 				infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 				String cityInfect = infectionCardList.get(infectionCardList.size() - 1).getCityName();
-				InfectionCard ic = infectionCardList.remove(infectionCardList.size() - 1);
+				Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+				infectionCardList.remove(infectionCardList.size() - 1);
 				try {
-					p.infect(cityInfect, ic.getDisease());
+					p.infect(cityInfect, disease);
 				} catch (Exception e) {
 					System.out.println(e);
 				}
@@ -598,8 +607,15 @@ public class GameEngine implements GameInterface {
 		return nbPlayerCard;
 	}
 
-	public InfectionCard getInfectionCard() {
-		InfectionCard infectionCard = this.infectionCardList.get(infectionCardList.size() - 1);
+	public void setNbPlayerCard(int nbPlayerCard) {
+		this.nbPlayerCard = nbPlayerCard;
+	}
+
+	public PlayerCard getInfectionCard() {
+		String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
+		Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
+		PlayerCard infectionCard = new PlayerCard(city, disease);
+
 		this.infectionCardList.remove(infectionCardList.size() - 1);
 		return infectionCard;
 	}
