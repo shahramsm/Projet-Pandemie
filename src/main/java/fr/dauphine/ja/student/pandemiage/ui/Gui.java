@@ -1,7 +1,7 @@
 //package save;
 
 package fr.dauphine.ja.student.pandemiage.ui;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.awt.*; 
 
 import javax.imageio.ImageIO;
@@ -15,12 +15,16 @@ import javafx.scene.shape.*;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import fr.dauphine.ja.student.pandemiage.gameengine.City;
 import fr.dauphine.ja.student.pandemiage.gameengine.GameEngine;
@@ -28,6 +32,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -49,6 +54,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
+
 
 
 
@@ -77,10 +84,10 @@ public class Gui extends Application{
         ArrayList<Circle> circles = new ArrayList<>();
         // Transform cities to circles
         circles = createCircles(cities);
-        // get the name of the cities
+        // Get the name of the cities
         ArrayList<Text> texts = new ArrayList<>();
         texts = createTexts(cities);
-
+        // Add neighbours cities
        ArrayList<Line> lines = new ArrayList<>();
         lines = createLines(cities);
         
@@ -103,18 +110,143 @@ public class Gui extends Application{
     	   root.getChildren().add(circles.get(i));
 
         }
-        
+        // Adding city's name
         for(int i = 0; i< texts.size(); i++) {
         	root.getChildren().add(texts.get(i));
         }
-        
+        // Adding city's neighbours
        for(int i =0; i<lines.size();i++) {
      	   root.getChildren().add(lines.get(i));
 
          }
-         
        
-        stage.setScene(s);
+       Label l = new Label("Pandemic");
+       //root.getChildren().add(l1);
+     /*  final ImageView imageView2 = new ImageView();   
+       Image image2 = new Image(Gui.class.getResourceAsStream("pandemic.png"));
+       
+       imageView2.setImage(image2);
+       imageView2.setFitWidth(300);
+       imageView2.setFitHeight(200);
+       root.getChildren().addAll(imageView2);
+   */
+       
+      //Text Pandemic game
+       Text t = new Text();
+       t.setX(200);
+       t.setY(-300);
+       t.setCache(true);
+       t.setText("PANDEMIC");
+       t.setFill(Color.RED);
+       t.setFont(Font.font("Verdana", FontWeight.BOLD,FontPosture.ITALIC, 70));
+       Reflection r = new Reflection();
+       r.setFraction(0.7f);
+       t.setEffect(r);
+       t.setTranslateY(400);
+       root.getChildren().add(t);
+       
+       Label l2 = new Label("Text-Only Label");
+       
+       //root.getChildren().addAll(l2);
+       // Left side design
+       Image i = new Image(getClass().getResourceAsStream("infectionRate.png"));
+       Label label3 = new Label("", new ImageView(i));
+       label3.setTranslateX(20);//Positionner
+       label3.setTranslateY(200);//Positionner
+       label3.setScaleX(.75);//Reduire taille
+       label3.setScaleY(.75);//Reduire taille
+       //label3.resize(500,500);
+       root.getChildren().add(label3);
+
+       //Circle 1
+       Circle c1 = new Circle(90,280,25,Color.TRANSPARENT);
+       c1.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t1 = new Text(82,287,"1");
+       t1.setFill(Color.WHITE);
+       t1.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c1);
+       root.getChildren().add(t1);
+       
+       //Circle 2
+       Circle c2 = new Circle(53,325,25,Color.TRANSPARENT);
+       c2.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t2 = new Text(47,333,"2");
+       t2.setFill(Color.WHITE);
+       t2.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c2);
+       root.getChildren().add(t2);
+       
+       //Circle 3
+       Circle c3 = new Circle(90,370,25,Color.TRANSPARENT);
+       c3.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t3 = new Text(82,379,"3");
+       t3.setFill(Color.WHITE);
+       t3.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c3);
+       root.getChildren().add(t3);
+       
+       //Circle 4
+       Circle c4 = new Circle(53,415,25,Color.TRANSPARENT);
+       c4.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t4 = new Text(47,425,"4");
+       t4.setFill(Color.WHITE);
+       t4.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c4);
+       root.getChildren().add(t4);
+       
+       //Circle 5
+       Circle c5 = new Circle(90,460,25,Color.TRANSPARENT);
+       c5.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t5 = new Text(82,471,"5");
+       t5.setFill(Color.WHITE);
+       t5.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c5);
+       root.getChildren().add(t5);
+       
+       //Circle 6
+       Circle c6 = new Circle(53,505,25,Color.TRANSPARENT);
+       c6.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t6 = new Text(47,517,"6");
+       t6.setFill(Color.WHITE);
+       t6.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c6);
+       root.getChildren().add(t6);
+       
+       //Circle 7
+       Circle c7 = new Circle(90,550,25,Color.TRANSPARENT);
+       c7.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t7 = new Text(82,563,"7");
+       t7.setFill(Color.WHITE);
+       t7.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c7);
+       root.getChildren().add(t7);
+       
+     
+       //Circle 8
+       Circle c8 = new Circle(53,595,25,Color.TRANSPARENT);
+       c8.setFill(Color.rgb(200, 200, 200, 0.2));
+       Text t8 = new Text(47,609,"");
+       t8.setFill(Color.WHITE);
+       t8.setStyle("-fx-font: 24 arial;");
+       root.getChildren().add(c8);
+       root.getChildren().add(t8);
+       
+       // Final Image left side design teteMort
+       // Dangerous
+       final ImageView imageView2 = new ImageView();   
+       Image image2 = new Image(Gui.class.getResourceAsStream("teteMort.png"));
+       
+       imageView2.setImage(image2);
+       imageView2.setFitWidth(45);
+       imageView2.setFitHeight(45);
+       imageView2.setX(32);
+       imageView2.setY(570);    
+       root.getChildren().addAll(imageView2);
+       
+       // Rectangle
+       
+       
+       stage.setScene(s);
         stage.show();
         
         
@@ -180,10 +312,18 @@ public class Gui extends Application{
 		
 	}
 	
+	
+	/*
+	 *  This method draws lines between cities neighbours
+	 *  One city by one
+	 *  using getNeighbours()
+	 *  
+	 *  @param ArrayList<City> cities
+	 *  @return ArrayList<Line> lines
+	 *  
+	 */	
 	public static ArrayList<Line> createLines(ArrayList<City> cities){
 		ArrayList<Line> lines = new ArrayList<Line>();
-		//Course the cities in param
-		ArrayList<String> n = new ArrayList<String>();
 		
 		
 		for(int i = 0; i< cities.size(); i++) {
@@ -203,8 +343,10 @@ public class Gui extends Application{
 						line.setEndY((1500-Double.parseDouble(cities.get(j).getY()))/2.5);
 						//Adding the X and Y to form a line
 
+						/*Color c = new Color(0,0,0,0);
+						c = Color.web("#E1E8E7");
 						line.setFill(Color.WHITE);
-						//System.out.println(line.getFill());
+						System.out.println(line.getFill());*/
 						lines.add(line);
 					}
 				}
