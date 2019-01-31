@@ -2,6 +2,7 @@
 
 package fr.dauphine.ja.student.pandemiage.ui;
 import java.util.ArrayList;
+import java.awt.*; 
 
 import javax.imageio.ImageIO;
 
@@ -136,10 +137,16 @@ public class Gui extends Application{
 		for(City c : cities) {
     			Circle circle = new Circle();
     			circle.setRadius(10);
+    			double r = Double.parseDouble(c.getR());
+    			//System.out.println(r);
+    			double g = Double.parseDouble(c.getG());
+    			double b = Double.parseDouble(c.getB());
     			
     			circle.setCenterX((1600+Double.parseDouble(c.getX()))/2.5);
         		circle.setCenterY((1500-Double.parseDouble(c.getY()))/2.5);
-        	
+        		//Every city with its color
+        		Color color = Color.rgb((int) r,(int)  g, (int) b, .99);
+        		circle.setFill(color);
         		circles.add(circle);
         		//System.out.println(circle);
     	}
@@ -195,7 +202,6 @@ public class Gui extends Application{
 						line.setEndX((1600+Double.parseDouble(cities.get(j).getX()))/2.5);
 						line.setEndY((1500-Double.parseDouble(cities.get(j).getY()))/2.5);
 						//Adding the X and Y to form a line
-						System.out.println(line.getFill());
 
 						line.setFill(Color.WHITE);
 						//System.out.println(line.getFill());
