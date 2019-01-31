@@ -3,6 +3,7 @@ package fr.dauphine.ja.student.pandemiage.gameengine;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.dauphine.ja.pandemiage.common.DefeatReason;
 import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.GameInterface;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
@@ -133,6 +134,7 @@ public class Player implements PlayerInterface {
 						if (g.isBlueDicoverdCure()) {
 							g.setNbCubeBlue(g.getAllCity().get(i).getBlue() + g.getNbCubeBlue());
 							g.getAllCity().get(i).setBlue(0);
+							System.out.println("Treat the ");
 						} else {
 							g.getAllCity().get(i).setBlue(g.getAllCity().get(i).getBlue() - 1);
 							g.setNbCubeBlue(g.getNbCubeBlue() + 1);
@@ -230,10 +232,15 @@ public class Player implements PlayerInterface {
 	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
 		if (!g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("La ville n'est pas dans la carte.");
+		} else if (g.isEradicated(d)) {
+			throw new UnauthorizedActionException("La maladie " + d + " a été éradiquée.");
 		} else {
 			int nbCub;
 			switch (d) {
 			case BLUE:
+				if (g.getNbOutbreaks() == 8) {
+					break;
+				}
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -242,19 +249,58 @@ public class Player implements PlayerInterface {
 							g.setNbEpidemi(g.getNbEpidemi() + 1);
 							g.getAllCity().get(i).setBlue(nbCub + 1);
 							g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+							break;
 						} else if (nbCub == 3) {
+							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
 							if (neighbours.size() > 0) {
+								int compt = 0;
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
+										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
 										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
-											infect(g.getAllCity().get(k).getName(), Disease.BLUE);
+											if (g.getAllCity().get(k).getBlue() == 3 && compt == 0) {
+												//ville j fait foyer
+												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+												compt++;
+												if(g.neighbours(neighbours.get(j)).size() > 0){
+													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
+														for (int m = 0; m < g.getAllCity().size(); m++) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+																if (g.getAllCity().get(m).getBlue() == 2) {
+																	g.setNbEpidemi(g.getNbEpidemi() + 1);
+																	g.getAllCity().get(m).setBlue(nbCub + 1);
+																	g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+																	continue;
+																} else if (g.getAllCity().get(m).getBlue() < 2) {
+																	g.getAllCity().get(m).setBlue(nbCub + 1);
+																	g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+																	continue;
+																}
+															}
+														}
+													}
+												}
+												continue;
+											} else if (g.getAllCity().get(k).getBlue() == 2) {
+												g.setNbEpidemi(g.getNbEpidemi() + 1);
+												g.getAllCity().get(k).setBlue(nbCub + 1);
+												g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+												continue;
+											} else if (g.getAllCity().get(k).getBlue() < 2) {
+												g.getAllCity().get(k).setBlue(nbCub + 1);
+												g.setNbCubeBlue(g.getNbCubeBlue() - 1);
+												continue;
+											}
+											break;
 										}
 									}
 								}
+							} else {
+								break;
 							}
-						} else {
+						} else if (nbCub < 2) {
 							g.getAllCity().get(i).setBlue(nbCub + 1);
 							g.setNbCubeBlue(g.getNbCubeBlue() - 1);
 						}
@@ -262,6 +308,9 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case YELLOW:
+				if (g.getNbOutbreaks() == 8) {
+					break;
+				}
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -270,19 +319,58 @@ public class Player implements PlayerInterface {
 							g.setNbEpidemi(g.getNbEpidemi() + 1);
 							g.getAllCity().get(i).setYellow(nbCub + 1);
 							g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+							break;
 						} else if (nbCub == 3) {
+							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
 							if (neighbours.size() > 0) {
+								int compt = 0;
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
+										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
 										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
-											infect(g.getAllCity().get(k).getName(), Disease.YELLOW);
+											if (g.getAllCity().get(k).getYellow() == 3 && compt == 0) {
+												//ville j fait foyer
+												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+												compt++;
+												if(g.neighbours(neighbours.get(j)).size() > 0){
+													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
+														for (int m = 0; m < g.getAllCity().size(); m++) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+																if (g.getAllCity().get(m).getYellow() == 2) {
+																	g.setNbEpidemi(g.getNbEpidemi() + 1);
+																	g.getAllCity().get(m).setYellow(nbCub + 1);
+																	g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+																	continue;
+																} else if (g.getAllCity().get(m).getYellow() < 2) {
+																	g.getAllCity().get(m).setYellow(nbCub + 1);
+																	g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+																	continue;
+																}
+															}
+														}
+													}
+												}
+												continue;
+											} else if (g.getAllCity().get(k).getYellow() == 2) {
+												g.setNbEpidemi(g.getNbEpidemi() + 1);
+												g.getAllCity().get(k).setYellow(nbCub + 1);
+												g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+												continue;
+											} else if (g.getAllCity().get(k).getYellow() < 2) {
+												g.getAllCity().get(k).setYellow(nbCub + 1);
+												g.setNbCubeYellow(g.getNbCubeYellow() - 1);
+												continue;
+											}
+											break;
 										}
 									}
 								}
+							} else {
+								break;
 							}
-						} else {
+						} else if (nbCub < 2) {
 							g.getAllCity().get(i).setYellow(nbCub + 1);
 							g.setNbCubeYellow(g.getNbCubeYellow() - 1);
 						}
@@ -290,6 +378,9 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case BLACK:
+				if (g.getNbOutbreaks() == 8) {
+					break;
+				}
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -298,19 +389,58 @@ public class Player implements PlayerInterface {
 							g.setNbEpidemi(g.getNbEpidemi() + 1);
 							g.getAllCity().get(i).setBlack(nbCub + 1);
 							g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+							break;
 						} else if (nbCub == 3) {
+							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
 							if (neighbours.size() > 0) {
+								int compt = 0;
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
+										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
 										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
-											infect(g.getAllCity().get(k).getName(), Disease.BLACK);
+											if (g.getAllCity().get(k).getBlack() == 3 && compt == 0) {
+												//ville j fait foyer
+												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+												compt++;
+												if(g.neighbours(neighbours.get(j)).size() > 0){
+													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
+														for (int m = 0; m < g.getAllCity().size(); m++) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+																if (g.getAllCity().get(m).getBlack() == 2) {
+																	g.setNbEpidemi(g.getNbEpidemi() + 1);
+																	g.getAllCity().get(m).setBlack(nbCub + 1);
+																	g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+																	continue;
+																} else if (g.getAllCity().get(m).getBlack() < 2) {
+																	g.getAllCity().get(m).setBlack(nbCub + 1);
+																	g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+																	continue;
+																}
+															}
+														}
+													}
+												}
+												continue;
+											} else if (g.getAllCity().get(k).getBlack() == 2) {
+												g.setNbEpidemi(g.getNbEpidemi() + 1);
+												g.getAllCity().get(k).setBlack(nbCub + 1);
+												g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+												continue;
+											} else if (g.getAllCity().get(k).getBlack() < 2) {
+												g.getAllCity().get(k).setBlack(nbCub + 1);
+												g.setNbCubeBlack(g.getNbCubeBlack() - 1);
+												continue;
+											}
+											break;
 										}
 									}
 								}
+							} else {
+								break;
 							}
-						} else {
+						} else if (nbCub < 2) {
 							g.getAllCity().get(i).setBlack(nbCub + 1);
 							g.setNbCubeBlack(g.getNbCubeBlack() - 1);
 						}
@@ -318,6 +448,9 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case RED:
+				if (g.getNbOutbreaks() == 8) {
+					break;
+				}
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -326,19 +459,58 @@ public class Player implements PlayerInterface {
 							g.setNbEpidemi(g.getNbEpidemi() + 1);
 							g.getAllCity().get(i).setRed(nbCub + 1);
 							g.setNbCubeRed(g.getNbCubeRed() - 1);
+							break;
 						} else if (nbCub == 3) {
+							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
 							if (neighbours.size() > 0) {
+								int compt = 0;
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
+										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
 										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
-											infect(g.getAllCity().get(k).getName(), Disease.RED);
+											if (g.getAllCity().get(k).getRed() == 3 && compt == 0) {
+												//ville j fait foyer
+												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+												compt++;
+												if(g.neighbours(neighbours.get(j)).size() > 0){
+													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
+														for (int m = 0; m < g.getAllCity().size(); m++) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+																if (g.getAllCity().get(m).getRed() == 2) {
+																	g.setNbEpidemi(g.getNbEpidemi() + 1);
+																	g.getAllCity().get(m).setRed(nbCub + 1);
+																	g.setNbCubeRed(g.getNbCubeRed() - 1);
+																	continue;
+																} else if (g.getAllCity().get(m).getRed() < 2) {
+																	g.getAllCity().get(m).setRed(nbCub + 1);
+																	g.setNbCubeRed(g.getNbCubeRed() - 1);
+																	continue;
+																}
+															}
+														}
+													}
+												}
+												continue;
+											} else if (g.getAllCity().get(k).getRed() == 2) {
+												g.setNbEpidemi(g.getNbEpidemi() + 1);
+												g.getAllCity().get(k).setRed(nbCub + 1);
+												g.setNbCubeRed(g.getNbCubeRed() - 1);
+												continue;
+											} else if (g.getAllCity().get(k).getRed() < 2) {
+												g.getAllCity().get(k).setRed(nbCub + 1);
+												g.setNbCubeRed(g.getNbCubeRed() - 1);
+												continue;
+											}
+											break;
 										}
 									}
 								}
+							} else {
+								break;
 							}
-						} else {
+						} else if (nbCub < 2) {
 							g.getAllCity().get(i).setRed(nbCub + 1);
 							g.setNbCubeRed(g.getNbCubeRed() - 1);
 						}
