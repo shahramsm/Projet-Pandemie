@@ -2,9 +2,9 @@
 projet-pandemiage-vong_touahri_mahdavi created by GitHub Classroom
 
 Étudiants : 
-- VONG Paul
-- Touahri Dyhia
-- Mahdavi Shahram
+- Paul VONG
+- Dyhia TOUAHRI
+- Shahram Mahdavi
 
 Pour compiler le projet, taper les commandes suivantes :
 mvn compile
