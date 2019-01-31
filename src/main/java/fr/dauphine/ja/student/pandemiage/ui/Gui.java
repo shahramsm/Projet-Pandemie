@@ -1,3 +1,5 @@
+//package save;
+
 package fr.dauphine.ja.student.pandemiage.ui;
 import java.util.ArrayList;
 
@@ -71,12 +73,16 @@ public class Gui extends Application{
         // Get all Cities of ge
         cities = ge.getAllCity();
 
-        ArrayList<Circle> circles = new ArrayList();
+        ArrayList<Circle> circles = new ArrayList<>();
         // Transform cities to circles
         circles = createCircles(cities);
-        ArrayList<Text> texts = new ArrayList();
+        // get the name of the cities
+        ArrayList<Text> texts = new ArrayList<>();
         texts = createTexts(cities);
 
+       ArrayList<Line> lines = new ArrayList<>();
+        lines = createLines(cities);
+        
         Group root = new Group();
         Scene s = new Scene(root, 1300,650);
         
@@ -100,6 +106,12 @@ public class Gui extends Application{
         for(int i = 0; i< texts.size(); i++) {
         	root.getChildren().add(texts.get(i));
         }
+        
+       for(int i =0; i<lines.size();i++) {
+     	   root.getChildren().add(lines.get(i));
+
+         }
+         
        
         stage.setScene(s);
         stage.show();
@@ -129,7 +141,7 @@ public class Gui extends Application{
         		circle.setCenterY((1500-Double.parseDouble(c.getY()))/2.5);
         	
         		circles.add(circle);
-        		System.out.println(circle);
+        		//System.out.println(circle);
     	}
    
     	return circles;
@@ -158,6 +170,42 @@ public class Gui extends Application{
 		}
 		
 		return texts;
+		
+	}
+	
+	public static ArrayList<Line> createLines(ArrayList<City> cities){
+		ArrayList<Line> lines = new ArrayList<Line>();
+		//Course the cities in param
+		ArrayList<String> n = new ArrayList<String>();
+		
+		
+		for(int i = 0; i< cities.size(); i++) {
+			ArrayList<String> neighbours = new ArrayList<String>();
+			// Getting the neighbours of city i
+			neighbours = cities.get(i).getNeighbours();
+
+			//Course the neighbours of city i
+			for(int k=0; k< neighbours.size();k++) {
+				//Course the city equals to the neighbours k to get the X and Y of the neighbour 
+				for(int j=0; j<cities.size();j++) {
+					if(neighbours.get(k).equals(cities.get(j).getName())) {
+						Line line = new Line();
+						line.setStartX((1600+Double.parseDouble(cities.get(i).getX()))/2.5);
+						line.setStartY((1500-Double.parseDouble(cities.get(i).getY()))/2.5);
+						line.setEndX((1600+Double.parseDouble(cities.get(j).getX()))/2.5);
+						line.setEndY((1500-Double.parseDouble(cities.get(j).getY()))/2.5);
+						//Adding the X and Y to form a line
+						System.out.println(line.getFill());
+
+						line.setFill(Color.WHITE);
+						//System.out.println(line.getFill());
+						lines.add(line);
+					}
+				}
+			}
+		}
+			
+		return lines;
 		
 	}
 	
