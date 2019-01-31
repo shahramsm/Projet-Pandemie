@@ -100,10 +100,10 @@ public class Ia implements AiInterface {
 				if (r == true) {
 					try {
 						int m = random.nextInt(48 - 1 + 1) + 1;
-						while (g.allCityNames().get(m).equals(p.playerLocation())) {
+						while (g.allCityNames().get(m - 1).equals(p.playerLocation())) {
 							m = random.nextInt(48 - 1 + 1) + 1;
 						}
-						String cityName = g.allCityNames().get(m);
+						String cityName = g.allCityNames().get(m - 1);
 						p.flyToCharter(cityName);
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
