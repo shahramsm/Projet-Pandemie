@@ -45,6 +45,10 @@ public class GameEngine implements GameInterface {
 	private boolean yellowDiscoveredCure = false;
 	private boolean blackDiscoveredCure = false;
 	private boolean redDiscoveredCure = false;
+	private boolean blueEradicated = false;
+	private boolean yellowEradicated = false;
+	private boolean blackEradicated = false;
+	private boolean redEradicated = false;
 	private int nbEpidemi = 0;
 	private int nbOutbreaks = 0;
 	private int nbPlayerCard = 54;
@@ -170,8 +174,8 @@ public class GameEngine implements GameInterface {
 		}
 		Collections.shuffle(playerCardList);
 		Collections.shuffle(infectionCardList);
-		
-		// première infectation 
+
+		// première infectation
 		for (int j = 0; j < 3; j++) {
 			if (!infectionCardList.isEmpty()) {
 				infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
@@ -207,7 +211,7 @@ public class GameEngine implements GameInterface {
 			}
 		}
 		for (int j = 0; j < 3; j++) {
-			if(!infectionCardList.isEmpty()) {
+			if (!infectionCardList.isEmpty()) {
 				infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
 				String city = infectionCardList.get(infectionCardList.size() - 1).getCityName();
 				Disease disease = infectionCardList.get(infectionCardList.size() - 1).getDisease();
@@ -374,6 +378,38 @@ public class GameEngine implements GameInterface {
 		this.yellowDiscoveredCure = yellowDicoverdCure;
 	}
 
+	public boolean isBlueEradicated() {
+		return blueEradicated;
+	}
+
+	public void setBlueEradicated(boolean blueEradicated) {
+		this.blueEradicated = blueEradicated;
+	}
+
+	public boolean isYellowEradicated() {
+		return yellowEradicated;
+	}
+
+	public void setYellowEradicated(boolean yellowEradicated) {
+		this.yellowEradicated = yellowEradicated;
+	}
+
+	public boolean isBlackEradicated() {
+		return blackEradicated;
+	}
+
+	public void setBlackEradicated(boolean blackEradicated) {
+		this.blackEradicated = blackEradicated;
+	}
+
+	public boolean isRedEradicated() {
+		return redEradicated;
+	}
+
+	public void setRedEradicated(boolean redEradicated) {
+		this.redEradicated = redEradicated;
+	}
+
 	public int getNbEpidemi() {
 		return nbEpidemi;
 	}
@@ -436,6 +472,8 @@ public class GameEngine implements GameInterface {
 				} else {
 					playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
+					this.setNbPlayerCard(this.getNbPlayerCardsLeft() - 1);
+					// à faire : utiliser ai.discard pour vérifier la taille de la main du joueur
 					if (pc.getCityName() == null && pc.getDisease() == null) {
 						if (!infectionCardList.isEmpty()) {
 							infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
@@ -559,15 +597,15 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public int infectionRate() {
-		int infectionRate = 0;
-		if (nbEpidemi <= 3 && nbEpidemi > 0) {
+		int infectionRate = 2;
+		if (this.getNbEpidemi() <= 3) {
 			infectionRate = 2;
-		} else if (nbEpidemi <= 5 && nbEpidemi > 3) {
+		} else if (this.getNbEpidemi() <= 5) {
 			infectionRate = 3;
-		} else if (nbEpidemi <= 7 && nbEpidemi > 5) {
+		} else if (this.getNbEpidemi() <= 7) {
 			infectionRate = 4;
 		} else {
-			return 0;
+			infectionRate = 4;
 		}
 		return infectionRate;
 	}
@@ -588,34 +626,45 @@ public class GameEngine implements GameInterface {
 
 	@Override
 	public boolean isEradicated(Disease d) {
-		int il = -1;
-		A: for (int i = 0; i < allCity.size(); i++) {
-			switch (d) {
-			case BLUE:
-				// = allCity.get(i).getBlue();
-				il = infectionLevel(allCity.get(i).getName(), d);
-				break;
-			case YELLOW:
-				il = infectionLevel(allCity.get(i).getName(), d);
-				break;
-			case BLACK:
-				il = infectionLevel(allCity.get(i).getName(), d);
-				break;
-			case RED:
-				il = infectionLevel(allCity.get(i).getName(), d);
-				break;
+		switch (d) {
+		case BLUE:
+			int nbBlock = 0;
+			for (int i = 0; i < allCity.size(); i++) {
+				nbBlock = nbBlock + infectionLevel(allCity.get(i).getName(), d);
 			}
-
-			if (il == 0 && isCured(d)) // Si le niveau d'infection est nul et
-										// qu'il existe un remede dans cette
-										// ville
-			{
-				continue A;
-			} else
-				return false;
+			if(isCured(d) && nbBlock == 0) {
+				this.setBlueEradicated(true);
+			}
+			return this.isBlueEradicated();
+		case YELLOW:
+			int nbBlock1 = 0;
+			for (int i = 0; i < allCity.size(); i++) {
+				nbBlock1 = nbBlock1 + infectionLevel(allCity.get(i).getName(), d);
+			}
+			if(isCured(d) && nbBlock1 == 0) {
+				this.setBlueEradicated(true);
+			}
+			return this.isBlueEradicated();
+		case BLACK:
+			int nbBlock2 = 0;
+			for (int i = 0; i < allCity.size(); i++) {
+				nbBlock2 = nbBlock2 + infectionLevel(allCity.get(i).getName(), d);
+			}
+			if(isCured(d) && nbBlock2 == 0) {
+				this.setBlueEradicated(true);
+			}
+			return this.isBlueEradicated();
+		case RED:
+			int nbBlock3 = 0;
+			for (int i = 0; i < allCity.size(); i++) {
+				nbBlock3 = nbBlock3 + infectionLevel(allCity.get(i).getName(), d);
+			}
+			if(isCured(d) && nbBlock3 == 0) {
+				this.setBlueEradicated(true);
+			}
+			return this.isBlueEradicated();
 		}
-
-		return true;
+		return false;
 	}
 
 	@Override

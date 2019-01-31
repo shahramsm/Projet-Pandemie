@@ -131,40 +131,67 @@ public class Player implements PlayerInterface {
 				if (g.getAllCity().get(i).getName().equals(location)) {
 					switch (d) {
 					case BLUE:
-						if (g.isBlueDicoverdCure()) {
+						if(g.getAllCity().get(i).getBlue() == 3) {
+							g.setNbEpidemi(g.getNbEpidemi() - 1);
+						}
+						if (g.isBlueDicoverdCure()) {	
 							g.setNbCubeBlue(g.getAllCity().get(i).getBlue() + g.getNbCubeBlue());
 							g.getAllCity().get(i).setBlue(0);
-							System.out.println("Treat the ");
+							g.setBlueCured(true);
+							g.isEradicated(Disease.BLUE);
+							System.out.println("Treat the disease " + d);
 						} else {
 							g.getAllCity().get(i).setBlue(g.getAllCity().get(i).getBlue() - 1);
 							g.setNbCubeBlue(g.getNbCubeBlue() + 1);
+							System.out.println("Treat the disease " + d);
 						}
 						break;
 					case BLACK:
+						if(g.getAllCity().get(i).getBlack() == 3) {
+							g.setNbEpidemi(g.getNbEpidemi() - 1);
+						}
 						if (g.isBlackDicoverdCure()) {
 							g.setNbCubeBlack(g.getAllCity().get(i).getBlack() + g.getNbCubeBlack());
 							g.getAllCity().get(i).setBlack(0);
+							g.setBlackCured(true);
+							g.isEradicated(Disease.BLACK);
+							System.out.println("Treat the disease " + d);
 						} else {
 							g.getAllCity().get(i).setBlack(g.getAllCity().get(i).getBlack() - 0);
 							g.setNbCubeBlack(g.getNbCubeBlack() + 1);
+							System.out.println("Treat the disease " + d);
 						}
 						break;
 					case YELLOW:
+						if(g.getAllCity().get(i).getYellow() == 3) {
+							g.setNbEpidemi(g.getNbEpidemi() - 1);
+						}
 						if (g.isYellowDicoverdCure()) {
 							g.setNbCubeYellow(g.getAllCity().get(i).getYellow() + g.getNbCubeYellow());
 							g.getAllCity().get(i).setYellow(0);
+							g.setYellowCured(true);
+							g.isEradicated(Disease.YELLOW);
+							System.out.println("Treat the disease " + d);
 						} else {
 							g.getAllCity().get(i).setYellow(g.getAllCity().get(i).getYellow() - 1);
 							g.setNbCubeYellow(g.getNbCubeYellow() + 1);
+							System.out.println("Treat the disease " + d);
 						}
 						break;
 					case RED:
+						if(g.getAllCity().get(i).getRed() == 3) {
+							g.setNbEpidemi(g.getNbEpidemi() - 1);
+						}
 						if (g.isRedDicoverdCure()) {
 							g.setNbCubeRed(g.getAllCity().get(i).getRed() + g.getNbCubeRed());
 							g.getAllCity().get(i).setRed(0);
+							g.setRedCured(true);
+							g.isEradicated(Disease.RED);
+							System.out.println("Treat the disease " + d);
 						} else {
 							g.getAllCity().get(i).setRed(g.getAllCity().get(i).getRed() - 1);
 							g.setNbCubeRed(g.getNbCubeRed() + 1);
+							System.out.println("Treat the disease " + d);
 						}
 						break;
 					}
