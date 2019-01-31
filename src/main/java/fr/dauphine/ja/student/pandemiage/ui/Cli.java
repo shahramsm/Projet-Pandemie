@@ -1,4 +1,4 @@
-package fr.dauphine.ja.student.pandemiage.ui;
+	package fr.dauphine.ja.student.pandemiage.ui;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -33,6 +33,7 @@ public class Cli {
 		options.addOption("t", "turnduration", true, "Number of seconds allowed to play a turn.");
 		options.addOption("s", "handsize", true, "Maximum size of a player hand.");
 		options.addOption("h", "help", false, "Display this help");
+		options.addOption("g", "gui", false, "Display the GUI");
 		
 		try {
 			CommandLine cmd = parser.parse( options, args);
@@ -56,7 +57,9 @@ public class Cli {
 				handSize = Integer.parseInt(cmd.getOptionValue("s"));
 			}
 
-			/* ... */ 
+			if(cmd.hasOption("g")) {
+				Gui.main(args);
+			} 
 			
 			if(cmd.hasOption("h")) {
 				HelpFormatter formatter = new HelpFormatter();
