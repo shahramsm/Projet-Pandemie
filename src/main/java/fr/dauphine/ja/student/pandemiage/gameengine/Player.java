@@ -201,9 +201,14 @@ public class Player implements PlayerInterface {
 		}
 	}
 
-//ajout des tests pour l'exception
+
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
+		if (cardNames.size() < 5) {
+			throw new UnauthorizedActionException("la main du joueur est incomplète.");
+		} else if (this.cpt <= 0) {
+			throw new UnauthorizedActionException("plus d'actions restantes");
+		}
 		int nbTreatCardBlue = 0;
 		int nbTreatCardYellow = 0;
 		int nbTreatCardBlack = 0;
@@ -214,6 +219,11 @@ public class Player implements PlayerInterface {
 		// possède
 		for (int i = 0; i < cardNames.size(); i++) {
 			d = cardNames.get(i).getDisease();
+			if (!(cardNames.get(i) instanceof PlayerCard)) {
+				throw new UnauthorizedActionException("le joueur n'a pas la bonne carte");
+			} else if (d != Disease.BLACK && d != Disease.YELLOW && d != Disease.RED && d != Disease.BLUE) {
+				throw new UnauthorizedActionException("la carte n'est pas de bonne couleur");
+			}
 			switch (d) {
 			case BLUE:
 				nbTreatCardBlue++;
