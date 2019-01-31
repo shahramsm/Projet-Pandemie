@@ -185,7 +185,7 @@ public class Player implements PlayerInterface {
 		// vérifie le nombre de cartes traitement pour chaque maladie que le
 		// joueur
 		// possède
-		for (int i = 0; i < playerHand.size(); i++) {
+		for (int i = 0; i < cardNames.size(); i++) {
 			d = cardNames.get(i).getDisease();
 			switch (d) {
 			case BLUE:
@@ -238,6 +238,10 @@ public class Player implements PlayerInterface {
 			int nbCub;
 			switch (d) {
 			case BLUE:
+				if(g.isEradicated(Disease.BLUE)){
+					break;
+				}
+				List<String> cityOutbreak=new ArrayList();
 				if (g.getNbOutbreaks() == 8) {
 					break;
 				}
@@ -251,6 +255,7 @@ public class Player implements PlayerInterface {
 							g.setNbCubeBlue(g.getNbCubeBlue() - 1);
 							break;
 						} else if (nbCub == 3) {
+							cityOutbreak.add(cityName);
 							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
@@ -259,15 +264,16 @@ public class Player implements PlayerInterface {
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
 										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
-										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j)) && !cityOutbreak.contains(neighbours.get(j))) {
 											if (g.getAllCity().get(k).getBlue() == 3 && compt == 0) {
+												cityOutbreak.add(neighbours.get(j));
 												//ville j fait foyer
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
 													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
 														for (int m = 0; m < g.getAllCity().size(); m++) {
-															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l)) && !cityOutbreak.contains(g.neighbours(neighbours.get(j)).get(l))) {
 																if (g.getAllCity().get(m).getBlue() == 2) {
 																	g.setNbEpidemi(g.getNbEpidemi() + 1);
 																	g.getAllCity().get(m).setBlue(nbCub + 1);
@@ -308,6 +314,10 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case YELLOW:
+				if(g.isEradicated(Disease.YELLOW)){
+					break;
+				}
+				List<String> cityOutbreak2=new ArrayList();
 				if (g.getNbOutbreaks() == 8) {
 					break;
 				}
@@ -321,6 +331,7 @@ public class Player implements PlayerInterface {
 							g.setNbCubeYellow(g.getNbCubeYellow() - 1);
 							break;
 						} else if (nbCub == 3) {
+							cityOutbreak2.add(cityName);
 							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
@@ -329,15 +340,16 @@ public class Player implements PlayerInterface {
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
 										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
-										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j)) && !cityOutbreak2.contains(neighbours.get(j))) {
 											if (g.getAllCity().get(k).getYellow() == 3 && compt == 0) {
+												cityOutbreak2.add(neighbours.get(j));
 												//ville j fait foyer
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
 													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
 														for (int m = 0; m < g.getAllCity().size(); m++) {
-															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l)) && !cityOutbreak2.contains(g.neighbours(neighbours.get(j)).get(l))) {
 																if (g.getAllCity().get(m).getYellow() == 2) {
 																	g.setNbEpidemi(g.getNbEpidemi() + 1);
 																	g.getAllCity().get(m).setYellow(nbCub + 1);
@@ -378,6 +390,10 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case BLACK:
+				if(g.isEradicated(Disease.BLACK)){
+					break;
+				}
+				List<String> cityOutbreak3=new ArrayList();
 				if (g.getNbOutbreaks() == 8) {
 					break;
 				}
@@ -391,6 +407,7 @@ public class Player implements PlayerInterface {
 							g.setNbCubeBlack(g.getNbCubeBlack() - 1);
 							break;
 						} else if (nbCub == 3) {
+							cityOutbreak3.add(cityName);
 							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
@@ -399,15 +416,16 @@ public class Player implements PlayerInterface {
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
 										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
-										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j)) && !cityOutbreak3.contains(neighbours.get(j))) {
 											if (g.getAllCity().get(k).getBlack() == 3 && compt == 0) {
+												cityOutbreak3.add(neighbours.get(j));
 												//ville j fait foyer
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
 													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
 														for (int m = 0; m < g.getAllCity().size(); m++) {
-															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l)) && !cityOutbreak3.contains(g.neighbours(neighbours.get(j)).get(l))) {
 																if (g.getAllCity().get(m).getBlack() == 2) {
 																	g.setNbEpidemi(g.getNbEpidemi() + 1);
 																	g.getAllCity().get(m).setBlack(nbCub + 1);
@@ -448,6 +466,10 @@ public class Player implements PlayerInterface {
 				}
 				break;
 			case RED:
+				if(g.isEradicated(Disease.RED)){
+					break;
+				}
+				List<String> cityOutbreak4=new ArrayList();
 				if (g.getNbOutbreaks() == 8) {
 					break;
 				}
@@ -461,6 +483,7 @@ public class Player implements PlayerInterface {
 							g.setNbCubeRed(g.getNbCubeRed() - 1);
 							break;
 						} else if (nbCub == 3) {
+							cityOutbreak4.add(cityName);
 							//ville i fait foyer
 							g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 							List<String> neighbours = g.neighbours(cityName);
@@ -469,15 +492,16 @@ public class Player implements PlayerInterface {
 								for (int j = 0; j < neighbours.size(); j++) {
 									for (int k = 0; k < g.getAllCity().size(); k++) {
 										//ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
-										if (g.getAllCity().get(k).getName().equals(neighbours.get(j))) {
+										if (g.getAllCity().get(k).getName().equals(neighbours.get(j)) && !cityOutbreak4.contains(neighbours.get(j))) {
 											if (g.getAllCity().get(k).getRed() == 3 && compt == 0) {
+												cityOutbreak4.add(neighbours.get(j));
 												//ville j fait foyer
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
 													for (int l = 0; l < g.neighbours(neighbours.get(j)).size(); l++) {
 														for (int m = 0; m < g.getAllCity().size(); m++) {
-															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l))) {
+															if (g.getAllCity().get(m).getName().equals(g.neighbours(neighbours.get(j)).get(l)) && !cityOutbreak4.contains(g.neighbours(neighbours.get(j)).get(l))) {
 																if (g.getAllCity().get(m).getRed() == 2) {
 																	g.setNbEpidemi(g.getNbEpidemi() + 1);
 																	g.getAllCity().get(m).setRed(nbCub + 1);
