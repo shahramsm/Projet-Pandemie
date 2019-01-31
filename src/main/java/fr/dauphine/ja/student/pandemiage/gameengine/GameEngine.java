@@ -509,7 +509,7 @@ public class GameEngine implements GameInterface {
 					infectionCardList.remove(infectionCardList.size() - 1);
 					try {
 						p.infect(cityInfect, disease);
-						if (getNbOutbreaks() == 8) {
+						if (getNbOutbreaks() >= 8) {
 							setDefeated("Lost game. Too many outbreaks.", DefeatReason.TOO_MANY_OUTBREAKS);
 						}
 					} catch (Exception e) {
@@ -524,7 +524,7 @@ public class GameEngine implements GameInterface {
 				setVictorious();
 			} else if (getNbCubeBlue() == 0 || getNbCubeBlack() == 0 || getNbCubeYellow() == 0 || getNbCubeRed() == 0) {
 				setDefeated("Lost game. No more blocks.", DefeatReason.NO_MORE_BLOCKS);
-			} else if (getNbOutbreaks() == 8) {
+			} else if (getNbOutbreaks() >= 8) {
 				setDefeated("Lost game. Too many outbreaks.", DefeatReason.TOO_MANY_OUTBREAKS);
 			}
 		}

@@ -259,8 +259,6 @@ public class Player implements PlayerInterface {
 	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
 		if (!g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("La ville n'est pas dans la carte.");
-		} else if (g.isEradicated(d)) {
-			throw new UnauthorizedActionException("La maladie " + d + " a été éradiquée.");
 		} else {
 			int nbCub;
 			switch (d) {
@@ -268,10 +266,10 @@ public class Player implements PlayerInterface {
 				if(g.isEradicated(Disease.BLUE)){
 					break;
 				}
-				List<String> cityOutbreak=new ArrayList();
-				if (g.getNbOutbreaks() == 8) {
+				if (g.getNbOutbreaks() >= 8) {
 					break;
 				}
+				List<String> cityOutbreak=new ArrayList();
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -295,6 +293,9 @@ public class Player implements PlayerInterface {
 											if (g.getAllCity().get(k).getBlue() == 3 && compt == 0) {
 												cityOutbreak.add(neighbours.get(j));
 												//ville j fait foyer
+												if (g.getNbOutbreaks() >= 8) {
+													break;
+												}
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
@@ -344,10 +345,10 @@ public class Player implements PlayerInterface {
 				if(g.isEradicated(Disease.YELLOW)){
 					break;
 				}
-				List<String> cityOutbreak2=new ArrayList();
-				if (g.getNbOutbreaks() == 8) {
+				if (g.getNbOutbreaks() >= 8) {
 					break;
 				}
+				List<String> cityOutbreak2=new ArrayList();
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -371,6 +372,9 @@ public class Player implements PlayerInterface {
 											if (g.getAllCity().get(k).getYellow() == 3 && compt == 0) {
 												cityOutbreak2.add(neighbours.get(j));
 												//ville j fait foyer
+												if (g.getNbOutbreaks() >= 8) {
+													break;
+												}
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
@@ -420,10 +424,10 @@ public class Player implements PlayerInterface {
 				if(g.isEradicated(Disease.BLACK)){
 					break;
 				}
-				List<String> cityOutbreak3=new ArrayList();
-				if (g.getNbOutbreaks() == 8) {
+				if (g.getNbOutbreaks() >= 8) {
 					break;
 				}
+				List<String> cityOutbreak3=new ArrayList();
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -447,6 +451,9 @@ public class Player implements PlayerInterface {
 											if (g.getAllCity().get(k).getBlack() == 3 && compt == 0) {
 												cityOutbreak3.add(neighbours.get(j));
 												//ville j fait foyer
+												if (g.getNbOutbreaks() >= 8) {
+													break;
+												}
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
@@ -496,10 +503,10 @@ public class Player implements PlayerInterface {
 				if(g.isEradicated(Disease.RED)){
 					break;
 				}
-				List<String> cityOutbreak4=new ArrayList();
-				if (g.getNbOutbreaks() == 8) {
+				if (g.getNbOutbreaks() >= 8) {
 					break;
 				}
+				List<String> cityOutbreak4=new ArrayList();
 				nbCub = 0;
 				for (int i = 0; i < g.getAllCity().size(); i++) {
 					if (g.getAllCity().get(i).getName().equals(cityName)) {
@@ -523,6 +530,9 @@ public class Player implements PlayerInterface {
 											if (g.getAllCity().get(k).getRed() == 3 && compt == 0) {
 												cityOutbreak4.add(neighbours.get(j));
 												//ville j fait foyer
+												if (g.getNbOutbreaks() >= 8) {
+													break;
+												}
 												g.setNbOutbreaks(g.getNbOutbreaks() + 1);
 												compt++;
 												if(g.neighbours(neighbours.get(j)).size() > 0){
