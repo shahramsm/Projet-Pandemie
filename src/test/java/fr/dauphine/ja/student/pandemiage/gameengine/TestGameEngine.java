@@ -43,10 +43,10 @@ public class TestGameEngine {
 		assertEquals(true, !g.getPlayerCardListDiscard().isEmpty());
 		
 	} 
-	// test à revoir
+
 	@Test
 	public void TestInfectionCardListDiscard() {
-		assertEquals(false, !g.getInfectionCardListDiscard().isEmpty());
+		assertEquals(true, !g.getInfectionCardListDiscard().isEmpty());
 		
 	}
 	
