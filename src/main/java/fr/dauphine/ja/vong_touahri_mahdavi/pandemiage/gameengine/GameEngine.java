@@ -56,7 +56,8 @@ public class GameEngine implements GameInterface {
 	private List<PlayerCardInterface> playerCardList;
 	private List<PlayerCardInterface> infectionCardListDiscard;
 	private List<PlayerCardInterface> playerCardListDiscard;
-	private List<PlayerCardInterface> playerHand = new ArrayList();
+	private List<PlayerCardInterface> playerHand;
+	private Player p;
 
 	// Do not change!
 	private void setDefeated(String msg, DefeatReason dr) {
@@ -102,6 +103,7 @@ public class GameEngine implements GameInterface {
 		infectionCardList = new ArrayList<PlayerCardInterface>();
 		playerCardListDiscard = new ArrayList<PlayerCardInterface>();
 		infectionCardListDiscard = new ArrayList<PlayerCardInterface>();
+		playerHand = new ArrayList<PlayerCardInterface>();
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -160,7 +162,7 @@ public class GameEngine implements GameInterface {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		Player p = new Player(this, playerHand);
+		p = new Player(this, playerHand);
 		Collections.shuffle(playerCardList);
 		for (int i = 0; i < 5; i++) {
 			playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
@@ -282,6 +284,34 @@ public class GameEngine implements GameInterface {
 		this.nbCubeYellow = nbCubeYellow;
 	}
 
+	public void setNbCubeColor(int nbCubeColor, Disease d) {
+		switch (d) {
+		case BLUE:
+			this.setNbCubeBlue(nbCubeColor);
+		case BLACK:
+			this.setNbCubeBlack(nbCubeColor);
+		case YELLOW:
+			this.setNbCubeYellow(nbCubeColor);
+		case RED:
+			this.setNbCubeRed(nbCubeColor);
+		}
+	}
+
+	public int getNbCubeColor(Disease d) {
+		int nbColor = 0;
+		switch (d) {
+		case BLUE:
+			nbColor = this.getNbCubeBlue();
+		case BLACK:
+			nbColor = this.getNbCubeBlack();
+		case YELLOW:
+			nbColor = this.getNbCubeYellow();
+		case RED:
+			nbColor = this.getNbCubeRed();
+		}
+		return nbColor;
+	}
+
 	public boolean isBlueCured() {
 		return blueCured;
 	}
@@ -344,6 +374,19 @@ public class GameEngine implements GameInterface {
 
 	public void setRedCured(boolean redCured) {
 		this.redCured = redCured;
+	}
+
+	public void setColorCured(Disease d, boolean b) {
+		switch (d) {
+		case BLUE:
+			this.setBlueCured(b);
+		case BLACK:
+			this.setBlackCured(b);
+		case YELLOW:
+			this.setYellowCured(b);
+		case RED:
+			this.setRedCured(b);
+		}
 	}
 
 	public boolean isBlueDicoverdCure() {
@@ -458,8 +501,6 @@ public class GameEngine implements GameInterface {
 		// Load Ai from Jar file
 		System.out.println("Loading AI Jar file " + aiJar);
 		AiInterface ai = AiLoader.loadAi(aiJar);
-		Player p = new Player(this, playerHand);
-		p.setPlayerHand(p.playerHand(), new PlayerCard("Atlanta", Disease.BLUE));
 
 		while (gameStatus == GameStatus.ONGOING) {
 			// fait 4 actions
@@ -483,7 +524,12 @@ public class GameEngine implements GameInterface {
 							// infecte 3 fois la même ville
 							for (int j = 0; j < 3; j++) {
 								try {
-									p.infect(cityInfect, disease);
+									if (getNbCubeBlue() == 0 || getNbCubeBlack() == 0 || getNbCubeYellow() == 0
+											|| getNbCubeRed() == 0) {
+										setDefeated("Lost game. No more blocks.", DefeatReason.NO_MORE_BLOCKS);
+									} else {
+										p.infect(cityInfect, disease);
+									}
 								} catch (Exception e) {
 									System.out.println(e);
 								}
@@ -632,7 +678,7 @@ public class GameEngine implements GameInterface {
 			for (int i = 0; i < allCity.size(); i++) {
 				nbBlock = nbBlock + infectionLevel(allCity.get(i).getName(), d);
 			}
-			if(isCured(d) && nbBlock == 0) {
+			if (isCured(d) && nbBlock == 0) {
 				this.setBlueEradicated(true);
 			}
 			return this.isBlueEradicated();
@@ -641,7 +687,7 @@ public class GameEngine implements GameInterface {
 			for (int i = 0; i < allCity.size(); i++) {
 				nbBlock1 = nbBlock1 + infectionLevel(allCity.get(i).getName(), d);
 			}
-			if(isCured(d) && nbBlock1 == 0) {
+			if (isCured(d) && nbBlock1 == 0) {
 				this.setBlueEradicated(true);
 			}
 			return this.isBlueEradicated();
@@ -650,7 +696,7 @@ public class GameEngine implements GameInterface {
 			for (int i = 0; i < allCity.size(); i++) {
 				nbBlock2 = nbBlock2 + infectionLevel(allCity.get(i).getName(), d);
 			}
-			if(isCured(d) && nbBlock2 == 0) {
+			if (isCured(d) && nbBlock2 == 0) {
 				this.setBlueEradicated(true);
 			}
 			return this.isBlueEradicated();
@@ -659,7 +705,7 @@ public class GameEngine implements GameInterface {
 			for (int i = 0; i < allCity.size(); i++) {
 				nbBlock3 = nbBlock3 + infectionLevel(allCity.get(i).getName(), d);
 			}
-			if(isCured(d) && nbBlock3 == 0) {
+			if (isCured(d) && nbBlock3 == 0) {
 				this.setBlueEradicated(true);
 			}
 			return this.isBlueEradicated();

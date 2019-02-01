@@ -12,63 +12,42 @@ import fr.dauphine.ja.pandemiage.common.UnauthorizedActionException;
 import fr.dauphine.ja.pandemiage.common.Disease;
 
 public class Ia implements AiInterface {
+	/*
+	 * public void Shine(int p, GameEngine g){ if(p=0){ return heuristic(g);//Evalue
+	 * le game engine }
+	 * 
+	 * for(int i=0; i<actPossible;i++){ =faire action i(= 4 actions); int
+	 * temp=Shine(p-1, g);
+	 * 
+	 * if(max<temp){ max=temp; actionAFaire=i } }
+	 * 
+	 * } public int heuristic(GameEngine g){ int score=0; if(8 foyer infection)
+	 * Score=-100000000; retrun score; if(4 remedes) score=100000000; return score;
+	 * }
+	 */
 
-/*	public void Shine(int p, GameEngine g){
-		if(p=0){
-			return heuristic(g);//Evalue le game engine
-		}
-		
-		for(int i=0; i<actPossible;i++){
-			=faire action i(= 4 actions);
-			int temp=Shine(p-1, g);
-			
-			if(max<temp){
-				max=temp;
-				actionAFaire=i
-			}
-		}
-		
-	}
-	 public int heuristic(GameEngine g){
-		 int score=0;
-		 if(8 foyer infection)
-			 Score=-100000000;
-		 	retrun score;
-		 if(4 remedes)
-			 score=100000000;
-		 	return score;
-		 	
-		 
-	 }
-	 
-	*/
-	
-	
-	
-	
 	@Override
 	public void playTurn(GameInterface g, PlayerInterface p) {
 		int b = 0;
-		while(b < 4) {
+		while (b < 4) {
 			Random random = new Random();
 			int d = random.nextInt(6 - 1 + 1) + 1;
-			
 			switch (d) {
 			case 1:
-				if(!g.neighbours(p.playerLocation()).isEmpty()){
+				if (!g.neighbours(p.playerLocation()).isEmpty()) {
+					b++;
 					try {
 						int f = random.nextInt(g.neighbours(p.playerLocation()).size() - 1 + 1) + 1;
 						String cityName = g.neighbours(p.playerLocation()).get(f - 1);
 						p.moveTo(cityName);
-						b++;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
-					}	
+					}
 				}
-			break;
-			
+				break;
 			case 2:
 				if (p.playerHand().size() > 0) {
+					b++;
 					try {
 						List<String> ls = new ArrayList();
 						for (int i = 0; i < p.playerHand().size(); i++) {
@@ -82,15 +61,14 @@ public class Ia implements AiInterface {
 						int m = random.nextInt(ls.size() - 1 + 1) + 1;
 						String cityName = ls.get(m - 1);
 						p.flyTo(cityName);
-						b++;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
 					}
 				}
 				break;
-			
 			case 3:
 				if (p.playerHand().size() > 0) {
+					b++;
 					boolean r = false;
 					for (int i = 0; i < p.playerHand().size(); i++) {
 						if (p.playerHand().get(i).getCityName().equals(p.playerLocation())) {
@@ -105,24 +83,21 @@ public class Ia implements AiInterface {
 							}
 							String cityName = g.allCityNames().get(m - 1);
 							p.flyToCharter(cityName);
-							b++;
 						} catch (UnauthorizedActionException e) {
 							e.printStackTrace();
 						}
 					}
 				}
 				break;
-	
 			case 4:
-				p.skipTurn();
 				b++;
+				p.skipTurn();
 				break;
-	
 			case 5:
+				b++;
 				if (g.infectionLevel(p.playerLocation(), Disease.BLUE) > 0) {
 					try {
 						p.treatDisease(Disease.BLUE);
-						b++;
 						break;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
@@ -130,7 +105,6 @@ public class Ia implements AiInterface {
 				} else if (g.infectionLevel(p.playerLocation(), Disease.BLACK) > 0) {
 					try {
 						p.treatDisease(Disease.BLACK);
-						b++;
 						break;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
@@ -138,7 +112,6 @@ public class Ia implements AiInterface {
 				} else if (g.infectionLevel(p.playerLocation(), Disease.RED) > 0) {
 					try {
 						p.treatDisease(Disease.RED);
-						b++;
 						break;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
@@ -146,114 +119,32 @@ public class Ia implements AiInterface {
 				} else if (g.infectionLevel(p.playerLocation(), Disease.YELLOW) > 0) {
 					try {
 						p.treatDisease(Disease.YELLOW);
-						b++;
 						break;
 					} catch (UnauthorizedActionException e) {
 						e.printStackTrace();
 					}
 				}
 				break;
-				
-			case 6: 
+			case 6:
+				b++;
 				try {
 					p.discoverCure(p.playerHand());
-					b++;
 				} catch (UnauthorizedActionException e) {
 					e.printStackTrace();
 				}
 				break;
 			}
 		}
-			
-			
-			
-			
-		/*	if (g.neighbours(p.playerLocation()).isEmpty()) {
-				// si la main de joueur contient 1 carte et cette carte est la
-				// ville actuele je choisit une des ville dans la carte au
-				// hasard et je me déplace
-				if (p.playerHand().size() == 1 && p.playerHand().get(0).getCityName().equals(p.playerLocation())) {
-					int m = random.nextInt(48 - 1 + 1) + 1;
-					String cityName = g.allCityNames().get(m);
-					try {
-						p.flyToCharter(cityName);
-						break;
-					} catch (UnauthorizedActionException e) {
-						e.printStackTrace();
-					}
-				} else if (!p.playerHand().isEmpty()) {
-					List<String> ls = new ArrayList();
-					for (int i = 0; i < p.playerHand().size(); i++) {
-						if (!p.playerHand().get(i).getCityName().equals(p.playerLocation())) {
-							ls.add(p.playerHand().get(i).getCityName());
-						}
-					}
-					try {
-						int m = random.nextInt(ls.size() - 1 + 1) + 1;
-						String cityName = ls.get(m - 1);
-						p.flyTo(cityName);
-					} catch (UnauthorizedActionException e) {
-						e.printStackTrace();
-					}
-				} else if (p.playerHand().isEmpty() ){
-					if(g.infectionLevel(p.playerLocation(), Disease.BLUE) > 0){
-						try {
-							p.treatDisease(Disease.BLUE);
-							break;
-						} catch (UnauthorizedActionException e) {
-							e.printStackTrace();
-						}
-					} else if( g.infectionLevel(p.playerLocation(), Disease.BLACK) > 0){
-						try {
-							p.treatDisease(Disease.BLACK);
-							break;
-						} catch (UnauthorizedActionException e) {
-							e.printStackTrace();
-						}
-					} else if( g.infectionLevel(p.playerLocation(), Disease.RED) > 0){
-						try {
-							p.treatDisease(Disease.RED);
-							break;
-						} catch (UnauthorizedActionException e) {
-							e.printStackTrace();
-						}
-					} else if( g.infectionLevel(p.playerLocation(), Disease.YELLOW) > 0) {
-						try {
-							p.treatDisease(Disease.YELLOW);
-							break;
-						} catch (UnauthorizedActionException e) {
-							e.printStackTrace();
-						}
-					} else{
-						p.skipTurn();
-						break;
-					}
-				}
-			} else {
-				try {
-					int f = random.nextInt(g.neighbours(p.playerLocation()).size() - 1 + 1) + 1;
-					String cityName = g.neighbours(p.playerLocation()).get(f - 1);
-					p.moveTo(cityName);
-				} catch (UnauthorizedActionException e) {
-					e.printStackTrace();
-				}
-			}
-			break;
-		*/
-		
-			}
+	}
 
 	@Override
 	public List<PlayerCardInterface> discard(GameInterface g, PlayerInterface p, int maxHandSize, int nbEpidemicCards) {
 		List<PlayerCardInterface> discard = new ArrayList<>();
-		int numdiscard = p.playerHand().size() - maxHandSize;  
+		int numdiscard = p.playerHand().size() - maxHandSize;
 
-		for(int i = 0; i < numdiscard; i++)
-			discard.add(p.playerHand().get(i)); 
+		for (int i = 0; i < numdiscard; i++)
+			discard.add(p.playerHand().get(i));
 
-		
 		return discard;
 	}
-	
-
 }
