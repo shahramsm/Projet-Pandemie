@@ -1,4 +1,4 @@
-	package fr.dauphine.ja.student.pandemiage.ui;
+	package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ui;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -7,10 +7,10 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import fr.dauphine.ja.student.pandemiage.gameengine.GameEngine;
+import fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine.GameEngine;
 
 public class Cli {	    
-	public static final String DEFAULT_AIJAR = "./target/pandemiage-1.0-SNAPSHOT-ai.jar"; 
+	public static final String DEFAULT_AIJAR = "./target/pandemiage-vong_touahri_mahdavi-1.0-SNAPSHOT-ai.jar"; 
 	public static final String DEFAULT_CITYGRAPH_FILE = "./pandemic.graphml";
 	public static final int DEFAULT_TURN_DURATION = 1;	//in seconds
 	public static final int DEFAULT_DIFFICULTY = 0; // Normal

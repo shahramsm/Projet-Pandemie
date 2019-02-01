@@ -1,4 +1,4 @@
-package fr.dauphine.ja.student.pandemiage.gameengine;
+package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine;
 
 import fr.dauphine.ja.pandemiage.common.Disease;
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;

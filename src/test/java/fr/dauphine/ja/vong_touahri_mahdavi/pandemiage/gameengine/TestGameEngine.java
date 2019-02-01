@@ -1,4 +1,4 @@
-package fr.dauphine.ja.student.pandemiage.gameengine;
+package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import fr.dauphine.ja.pandemiage.common.PlayerCardInterface;
+import fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine.GameEngine;
+import fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine.Player;
 
 public class TestGameEngine {
 

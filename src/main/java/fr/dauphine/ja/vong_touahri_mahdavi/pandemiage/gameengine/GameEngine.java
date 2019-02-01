@@ -1,4 +1,4 @@
-package fr.dauphine.ja.student.pandemiage.gameengine;
+package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine;
 
 import java.util.ArrayList;
 import java.util.Collections;

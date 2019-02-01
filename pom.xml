@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.dauphine.ja.student.pandemiage</groupId>
-  <artifactId>pandemiage</artifactId>
+  <groupId>fr.dauphine.ja.vong_touahri_mahdavi.pandemiage</groupId>
+  <artifactId>pandemiage-vong_touahri_mahdavi</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>pandemiage</name>
+  <name>pandemiage-vong_touahri_mahdavi</name>
   <url>http://maven.apache.org</url>
   <dependencies>
 	<dependency>
@@ -48,10 +48,10 @@
     <version>3.0.1</version>
     <configuration>
    <!--  <finalName>dauphine-pandemic</finalName> -->
-    <exclude>fr/dauphine/ja/student/pandemiage/ai/*</exclude>    
+    <exclude>fr/dauphine/ja/vong_touahri_mahdavi/pandemiage/ai/*</exclude>    
     <archive>
                 <manifest>
-                <mainClass>fr.dauphine.ja.student.pandemiage.ui.Cli</mainClass>
+                <mainClass>fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ui.Cli</mainClass>
               <addClasspath>true</addClasspath>
             </manifest>
           </archive>      
@@ -63,7 +63,7 @@
                 <classesDirectory>${project.build.directory}/classes/</classesDirectory>
                 <includes>**/*</includes>
                 <archive>
-                  <manifestFile>src/main/java/fr/dauphine/ja/student/pandemiage/ai/manifest</manifestFile>
+                  <manifestFile>src/main/java/fr/dauphine/ja/vong_touahri_mahdavi/pandemiage/ai/manifest</manifestFile>
                 </archive>
             </configuration>
             <phase>package</phase>
@@ -86,7 +86,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>fr.dauphine.ja.student.pandemiage.ui.Gui</mainClass>
+          <mainClass>fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ui.Gui</mainClass>
         </configuration>
 </plugin>
 
@@ -96,7 +96,7 @@
      <!--  <finalName>dauphine-pandemic</finalName> -->  
           <archive>
             <manifest>
-              <mainClass>fr.dauphine.ja.student.pandemiage.ui.Cli</mainClass>
+              <mainClass>fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ui.Cli</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

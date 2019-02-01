@@ -1,4 +1,4 @@
-package fr.dauphine.ja.student.pandemiage.ai;
+package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ai;
 
 import java.util.ArrayList;
 import java.util.List;

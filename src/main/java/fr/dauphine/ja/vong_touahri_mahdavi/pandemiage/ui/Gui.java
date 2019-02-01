@@ -1,6 +1,6 @@
 //package save;
 
-package fr.dauphine.ja.student.pandemiage.ui;
+package fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.ui;
 import java.util.ArrayList; 
 import java.awt.*; 
 
@@ -9,6 +9,9 @@ import javax.imageio.ImageIO;
 //import com.sun.javafx.geom.Circle;
 import com.sun.prism.paint.LinearGradient;
 import com.sun.prism.paint.Stop;
+
+import fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine.City;
+import fr.dauphine.ja.vong_touahri_mahdavi.pandemiage.gameengine.GameEngine;
 import javafx.scene.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
@@ -27,8 +30,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import fr.dauphine.ja.student.pandemiage.gameengine.City;
-import fr.dauphine.ja.student.pandemiage.gameengine.GameEngine;
 import javafx.application.Application; 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
