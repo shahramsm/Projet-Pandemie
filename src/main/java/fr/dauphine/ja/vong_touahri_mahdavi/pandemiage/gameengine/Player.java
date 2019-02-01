@@ -49,6 +49,7 @@ public class Player implements PlayerInterface {
 		} else {
 			System.out.println("Move from " + this.location + " to " + cityName);
 			this.location = cityName;
+			System.out.println("Location : " + this.location );
 			this.cpt -= 1;
 		}
 	}
@@ -76,6 +77,7 @@ public class Player implements PlayerInterface {
 			}
 			System.out.println("Fly from " + this.location + " to " + cityName);
 			this.location = cityName;
+			System.out.println("Location : " + this.location );
 			for (int i = 0; i < playerHand.size(); i++) {
 				if (this.playerHand.get(i).getCityName().equals(cityName)) {
 					this.playerHand().remove(i);
@@ -113,6 +115,7 @@ public class Player implements PlayerInterface {
 				}
 			}
 			this.location = cityName;
+			System.out.println("Location : " + this.location );
 			this.cpt -= 1;
 		}
 	}
@@ -120,6 +123,7 @@ public class Player implements PlayerInterface {
 	@Override
 	public void skipTurn() {
 		cpt -= 1;
+		System.out.println("Skip turn.");
 	}
 
 	@Override
@@ -136,7 +140,7 @@ public class Player implements PlayerInterface {
 				city.setNbColor(0, d);
 				g.setColorCured(d, true);
 				g.isEradicated(d);
-				System.out.println("Treat the disease " + d);
+				System.out.println("Treat the disease " + d + " with the cure.");
 			}
 			if (city.getBlue() == 3) {
 				g.setNbEpidemi(g.getNbEpidemi() - 1);
@@ -191,12 +195,16 @@ public class Player implements PlayerInterface {
 		// met à jour le status de la découverte d'un remède
 		if (nbTreatCardBlue == 5) {
 			g.setBlueDiscoveredCure(true);
+			System.out.println("The cure of " + Disease.BLUE + " has been discovered.");
 		} else if (nbTreatCardYellow == 5) {
 			g.setYellowDiscoveredCure(true);
+			System.out.println("The cure of " + Disease.YELLOW + " has been discovered.");
 		} else if (nbTreatCardBlack == 5) {
 			g.setBlackDiscoveredCure(true);
+			System.out.println("The cure of " + Disease.BLACK + " has been discovered.");
 		} else if (nbTreatCardRed == 5) {
 			g.setRedDiscoveredCure(true);
+			System.out.println("The cure of " + Disease.RED + " has been discovered.");
 		}
 		cpt--;
 	}
@@ -242,10 +250,11 @@ public class Player implements PlayerInterface {
 							g.setNbEpidemi(g.getNbEpidemi() + 1);
 							city.setNbColor(nbCube + 1, d);
 							g.setNbCubeColor(g.getNbCubeColor(d) - 1, d);
+							System.out.println("infect the city " + city.getName() + " with the disease " + d + ".");
 						} else if (nbCube < 2) {
-
 							city.setNbColor(nbCube + 1, d);
 							g.setNbCubeColor(g.getNbCubeColor(d) - 1, d);
+							System.out.println("infect the city " + city.getName() + " with the disease " + d + ".");
 						}
 					}
 				}
@@ -266,6 +275,7 @@ public class Player implements PlayerInterface {
 					cityOutbreak.add(cityName);
 					if (!g.isEradicated(d)) {
 						g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+						System.out.println("An outbreak has occured.");
 						neighbours = g.neighbours(cityName);
 						if (neighbours.size() > 0) {
 							int compt = 0;
@@ -278,6 +288,7 @@ public class Player implements PlayerInterface {
 									cityOutbreak.add(neighbours.get(j));
 									// ville j fait foyer
 									g.setNbOutbreaks(g.getNbOutbreaks() + 1);
+									System.out.println("An outbreak has occured.");
 									compt++;
 									if (g.getNbCubeColor(d) > 0) {
 										if (g.neighbours(neighbours.get(j)).size() > 0) {
