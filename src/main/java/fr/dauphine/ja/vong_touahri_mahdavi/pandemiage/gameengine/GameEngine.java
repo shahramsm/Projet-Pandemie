@@ -170,6 +170,7 @@ public class GameEngine implements GameInterface {
 			p.setPlayerHand(p.playerHand(), pc);
 			setNbPlayerCard(getNbPlayerCardsLeft() - 1);
 		}
+		// ajouts des cartes épidemies dans la liste des cartes joueurs
 		for (int i = 0; i < 6; i++) {
 			PlayerCardInterface pc = new PlayerCard(null, null);
 			playerCardList.add(pc);
@@ -229,7 +230,7 @@ public class GameEngine implements GameInterface {
 		}
 	}
 
-	// une méthode pour convertir les RGB en couleur 
+	// une méthode pour convertir les RGB en couleur
 	public Disease convertColor(String r, String g, String b) {
 		Disease d = null;
 		if (r.equals("107") && g.equals("112") && b.equals("184")) {
@@ -286,7 +287,9 @@ public class GameEngine implements GameInterface {
 	public void setNbCubeYellow(int nbCubeYellow) {
 		this.nbCubeYellow = nbCubeYellow;
 	}
-	// méthode setteur qui permet de modifier le nombre des cubes en dehors de plateau 
+
+	// méthode setteur qui permet de modifier le nombre des cubes en dehors de
+	// plateau
 	public void setNbCubeColor(int nbCubeColor, Disease d) {
 		switch (d) {
 		case BLUE:
@@ -299,7 +302,9 @@ public class GameEngine implements GameInterface {
 			this.setNbCubeRed(nbCubeColor);
 		}
 	}
-	// méthode getteur qui permet de retourner le nombre des cubes en dehors de plateau
+
+	// méthode getteur qui permet de retourner le nombre des cubes en dehors de
+	// plateau
 	public int getNbCubeColor(Disease d) {
 		int nbColor = 0;
 		switch (d) {
@@ -378,7 +383,9 @@ public class GameEngine implements GameInterface {
 	public void setRedCured(boolean redCured) {
 		this.redCured = redCured;
 	}
-	// méthode setteur qui permet de modifier 
+
+	// méthode setteur qui permet de modifier l'etat (cured or not cured) d'une
+	// ville
 	public void setColorCured(Disease d, boolean b) {
 		switch (d) {
 		case BLUE:
@@ -464,10 +471,6 @@ public class GameEngine implements GameInterface {
 		this.nbEpidemi = nbEpidemi;
 	}
 
-	public void setNbOutbreaks(int nbOutbreaks) {
-		this.nbOutbreaks = nbOutbreaks;
-	}
-
 	public List<PlayerCardInterface> getInfectionCardList() {
 		return infectionCardList;
 	}
@@ -517,7 +520,8 @@ public class GameEngine implements GameInterface {
 					playerCardListDiscard.add(playerCardList.get(playerCardList.size() - 1));
 					PlayerCardInterface pc = playerCardList.remove(playerCardList.size() - 1);
 					this.setNbPlayerCard(this.getNbPlayerCardsLeft() - 1);
-					// à faire : utiliser ai.discard pour vérifier la taille de la main du joueur
+					// à faire : utiliser ai.discard pour vérifier la taille de
+					// la main du joueur
 					if (pc.getCityName() == null && pc.getDisease() == null) {
 						if (!infectionCardList.isEmpty()) {
 							infectionCardListDiscard.add(infectionCardList.get(infectionCardList.size() - 1));
@@ -578,6 +582,7 @@ public class GameEngine implements GameInterface {
 			}
 		}
 	}
+
 	// méthode qui retourne la liste des noms de tous les ville
 	@Override
 	public List<String> allCityNames() {
@@ -587,7 +592,9 @@ public class GameEngine implements GameInterface {
 		}
 		return allCityNames;
 	}
-	//méthode qui retourne la liste des noms de villes voisins de la ville passé en paramètre 
+
+	// méthode qui retourne la liste des noms de villes voisins de la ville
+	// passé en paramètre
 	@Override
 	public List<String> neighbours(String cityName) {
 		ArrayList<String> neighbours = new ArrayList<String>();
@@ -715,10 +722,16 @@ public class GameEngine implements GameInterface {
 		}
 		return false;
 	}
+
 	// méthode getteur qui retourne le nombre des foyers d'infection
 	@Override
 	public int getNbOutbreaks() {
 		return nbOutbreaks;
+	}
+
+	// méthode setteur qui permet de modifier le nombre des foyers infections
+	public void setNbOutbreaks(int nbOutbreaks) {
+		this.nbOutbreaks = nbOutbreaks;
 	}
 
 	@Override

@@ -13,8 +13,8 @@ import fr.dauphine.ja.pandemiage.common.Disease;
 
 public class Ia implements AiInterface {
 	/*
-	 * public void Shine(int p, GameEngine g){ if(p=0){ return heuristic(g);//Evalue
-	 * le game engine }
+	 * public void Shine(int p, GameEngine g){ if(p=0){ return
+	 * heuristic(g);//Evalue le game engine }
 	 * 
 	 * for(int i=0; i<actPossible;i++){ =faire action i(= 4 actions); int
 	 * temp=Shine(p-1, g);
@@ -22,10 +22,12 @@ public class Ia implements AiInterface {
 	 * if(max<temp){ max=temp; actionAFaire=i } }
 	 * 
 	 * } public int heuristic(GameEngine g){ int score=0; if(8 foyer infection)
-	 * Score=-100000000; retrun score; if(4 remedes) score=100000000; return score;
-	 * }
+	 * Score=-100000000; retrun score; if(4 remedes) score=100000000; return
+	 * score; }
 	 */
 
+	// méthode qui permets de faire des differents actions par IA, la choix des
+	// actions est au hasard
 	@Override
 	public void playTurn(GameInterface g, PlayerInterface p) {
 		int b = 0;
@@ -137,6 +139,7 @@ public class Ia implements AiInterface {
 		}
 	}
 
+	// méthode qui permets de piocher des carts par IA
 	@Override
 	public List<PlayerCardInterface> discard(GameInterface g, PlayerInterface p, int maxHandSize, int nbEpidemicCards) {
 		List<PlayerCardInterface> discard = new ArrayList<>();

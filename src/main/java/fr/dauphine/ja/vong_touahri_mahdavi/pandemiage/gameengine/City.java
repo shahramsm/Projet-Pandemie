@@ -22,7 +22,7 @@ public class City {
 	private int black = 0;
 	private int red = 0;
 	private ArrayList<String> neighbours = new ArrayList<String>();
-
+	// constructeur 
 	public City(String id, String name, String eigencentrality, String degree, String size, String r, String g,
 			String b, String x, String y, Disease d) {
 		this.id = id;
@@ -149,7 +149,7 @@ public class City {
 	public void setRed(int red) {
 		this.red = red;
 	}
-
+	// méthode qui permet de modifier le nombre des cube d'une ville en fonction de la maladie
 	public void setNbColor(int color, Disease d) {
 		switch (d) {
 		case BLUE:
@@ -162,7 +162,7 @@ public class City {
 			this.setRed(color);
 		}
 	}
-
+	// méthode qui permet de retourner le nombre des cube d'une ville en fonction de la maladie
 	public int getNbColor(Disease d) {
 		int nbColor = 0;
 		switch (d) {

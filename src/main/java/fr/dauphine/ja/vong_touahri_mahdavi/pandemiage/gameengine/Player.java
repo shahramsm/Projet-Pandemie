@@ -38,6 +38,8 @@ public class Player implements PlayerInterface {
 		this.cpt = cpt;
 	}
 
+	// méthode qui permet au joueur de bouger sur une des villes voisins à
+	// condition que ça lui reste des actions
 	@Override
 	public void moveTo(String cityName) throws UnauthorizedActionException {
 		if (this.cpt <= 0) {
@@ -49,11 +51,13 @@ public class Player implements PlayerInterface {
 		} else {
 			System.out.println("Move from " + this.location + " to " + cityName);
 			this.location = cityName;
-			System.out.println("Location : " + this.location );
+			System.out.println("Location : " + this.location);
 			this.cpt -= 1;
 		}
 	}
 
+	// méthode qui permet au joueur de faire bouger sur une des villes qu'il
+	// possède la carte correspondante à condition que ça lui reste des actions
 	@Override
 	public void flyTo(String cityName) throws UnauthorizedActionException {
 		if (this.playerHand.size() == 0 && this.cpt > 0) {
@@ -77,7 +81,7 @@ public class Player implements PlayerInterface {
 			}
 			System.out.println("Fly from " + this.location + " to " + cityName);
 			this.location = cityName;
-			System.out.println("Location : " + this.location );
+			System.out.println("Location : " + this.location);
 			for (int i = 0; i < playerHand.size(); i++) {
 				if (this.playerHand.get(i).getCityName().equals(cityName)) {
 					this.playerHand().remove(i);
@@ -87,6 +91,9 @@ public class Player implements PlayerInterface {
 		}
 	}
 
+	// méthode qui permet au joueur de faire bouger sur une des villes de
+	// plateau au choix à condition qu'il possède la carte de la ville actuelle
+	// et il lui reste des actions
 	@Override
 	public void flyToCharter(String cityName) throws UnauthorizedActionException {
 		if (this.playerHand.isEmpty()) {
@@ -115,17 +122,20 @@ public class Player implements PlayerInterface {
 				}
 			}
 			this.location = cityName;
-			System.out.println("Location : " + this.location );
+			System.out.println("Location : " + this.location);
 			this.cpt -= 1;
 		}
 	}
 
+	// méthode qui permets au joueur de passer son tour
 	@Override
 	public void skipTurn() {
 		cpt -= 1;
 		System.out.println("Skip turn.");
 	}
 
+	// méthode qui permets de soignier la maladie passé en paramètre pour la
+	// ville actuelle de joueur
 	@Override
 	public void treatDisease(Disease d) throws UnauthorizedActionException {
 		if (this.cpt <= 0) {
@@ -155,6 +165,8 @@ public class Player implements PlayerInterface {
 		}
 	}
 
+	// méthode pour trouver un remède ( à condition que joueur possède 5 cartes
+	// de même couleur)
 	@Override
 	public void discoverCure(List<PlayerCardInterface> cardNames) throws UnauthorizedActionException {
 		if (cardNames.size() < 5) {
@@ -262,6 +274,7 @@ public class Player implements PlayerInterface {
 		}
 	}
 
+	// méthode infecter une maladie (une cube) à une ville CityName
 	public void infect(String cityName, Disease d) throws UnauthorizedActionException {
 		if (!g.allCityNames().contains(cityName)) {
 			throw new UnauthorizedActionException("La ville n'est pas dans la carte.");
@@ -281,7 +294,8 @@ public class Player implements PlayerInterface {
 							int compt = 0;
 							for (int j = 0; j < neighbours.size(); j++) {
 								City cityNeighbour = getCityFromCityList(neighbours.get(j), g.getAllCity());
-								// ville j infecte ses voisins k dans la meseure ou nbcure ne dépasse pas 3
+								// ville j infecte ses voisins k dans la meseure
+								// ou nbcure ne dépasse pas 3
 								if (!cityOutbreak.contains(neighbours.get(j))) {
 									break;
 								} else if (cityNeighbour.getNbColor(d) == 3 && compt == 0) {
