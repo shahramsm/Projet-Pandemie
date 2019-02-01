@@ -12,6 +12,7 @@ import com.sun.prism.paint.Stop;
 import javafx.scene.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -41,12 +42,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.QuadCurveTo;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -244,6 +239,74 @@ public class Gui extends Application{
        root.getChildren().addAll(imageView2);
        
        // Rectangle
+       Rectangle r1 = new Rectangle();
+       r1.setX(15);
+       r1.setY(13);
+       r1.setWidth(1230);
+       r1.setHeight(625);
+       r1.setArcWidth(20);
+       r1.setArcHeight(20);
+       r1.setFill(Color.rgb(200, 200, 200, 0.0));
+       r1.setStroke(Color.WHITE);
+       root.getChildren().add(r1);
+       
+    // Rectangle down design
+       Rectangle r2 = new Rectangle();
+       r2.setX(500);
+       r2.setY(573);
+       r2.setWidth(250);
+       r2.setHeight(65);
+       r2.setArcWidth(20);
+       r2.setArcHeight(20);
+       r2.setFill(Color.rgb(200, 200, 200, 0.0));
+       r2.setStroke(Color.WHITE);
+       root.getChildren().add(r2);
+       
+       // YellowCure icon
+       final ImageView imageView3 = new ImageView();   
+       Image image3 = new Image(Gui.class.getResourceAsStream("yellowCure.png"));
+       
+       imageView3.setImage(image3);
+       imageView3.setFitWidth(45);
+       imageView3.setFitHeight(45);
+       imageView3.setX(515);
+       imageView3.setY(588);    
+       root.getChildren().addAll(imageView3);
+       
+       // RedCure icon
+       final ImageView imageView4 = new ImageView();   
+       Image image4 = new Image(Gui.class.getResourceAsStream("redCure.png"));
+       
+       imageView4.setImage(image4);
+       imageView4.setFitWidth(45);
+       imageView4.setFitHeight(45);
+       imageView4.setX(570);
+       imageView4.setY(588);    
+       root.getChildren().addAll(imageView4);
+       
+       // BlueCure icon
+       final ImageView imageView5 = new ImageView();   
+       Image image5 = new Image(Gui.class.getResourceAsStream("blueCure.png"));
+       
+       imageView5.setImage(image5);
+       imageView5.setFitWidth(45);
+       imageView5.setFitHeight(45);
+       imageView5.setX(625);
+       imageView5.setY(588);    
+       root.getChildren().addAll(imageView5);
+       
+       // BlackCure icon
+       final ImageView imageView6 = new ImageView();   
+       Image image6 = new Image(Gui.class.getResourceAsStream("blackCure.png"));
+       
+       imageView6.setImage(image6);
+       imageView6.setFitWidth(45);
+       imageView6.setFitHeight(45);
+       imageView6.setX(680);
+       imageView6.setY(588);    
+       root.getChildren().addAll(imageView6);
+       
+       
        
        
        stage.setScene(s);
