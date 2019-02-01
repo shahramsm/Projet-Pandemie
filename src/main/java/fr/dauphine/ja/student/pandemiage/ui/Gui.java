@@ -144,7 +144,7 @@ public class Gui extends Application{
        
        //root.getChildren().addAll(l2);
        // Left side design
-       Image i = new Image(getClass().getResourceAsStream("infectionRate.png"));
+       Image i = new Image(getClass().getResourceAsStream("epidemicPiece.png"));
        Label label3 = new Label("", new ImageView(i));
        label3.setTranslateX(20);//Positionner
        label3.setTranslateY(200);//Positionner
@@ -306,6 +306,120 @@ public class Gui extends Application{
        imageView6.setY(588);    
        root.getChildren().addAll(imageView6);
        
+       // Rectangle down design
+       Rectangle r3 = new Rectangle();
+       r3.setX(780);
+       r3.setY(500);
+       r3.setWidth(100);
+       r3.setHeight(133);
+       r3.setArcWidth(20);
+       r3.setArcHeight(20);
+       r3.setFill(Color.rgb(2, 200, 100, 0.6));
+       r3.setStroke(Color.WHITE);
+       root.getChildren().add(r3);
+       
+       
+       // Rectangle down design
+       Rectangle r4 = new Rectangle();
+       r4.setX(900);
+       r4.setY(500);
+       r4.setWidth(100);
+       r4.setHeight(133);
+       r4.setArcWidth(20);
+       r4.setArcHeight(20);
+       r4.setFill(Color.rgb(2, 200, 100, 0.6));
+       r4.setStroke(Color.WHITE);
+       root.getChildren().add(r4);
+       
+       
+       // Rectangle TOP right design
+       Rectangle r5 = new Rectangle();
+       r5.setX(750);
+       r5.setY(20);
+       r5.setWidth(160);
+       r5.setHeight(100);
+       r5.setArcWidth(20);
+       r5.setArcHeight(20);
+       r5.setFill(Color.rgb(2, 200, 200, 0.5));
+       r5.setStroke(Color.WHITE);
+       root.getChildren().add(r5);
+       
+       // Rectangle TOP right design
+       Rectangle r6 = new Rectangle();
+       r6.setX(930);
+       r6.setY(20);
+       r6.setWidth(160);
+       r6.setHeight(100);
+       r6.setArcWidth(20);
+       r6.setArcHeight(20);
+       r6.setFill(Color.rgb(2, 200, 200, 0.6));
+       r6.setStroke(Color.WHITE);
+       root.getChildren().add(r6);
+       
+     //Circle 9
+       Circle c9 = new Circle(777,147,25,Color.TRANSPARENT);
+       c9.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t9 = new Text(733,185,"2");
+       t9.setFill(Color.WHITE);
+       t9.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c9);
+       root.getChildren().add(t9);
+       
+       
+       //Circle 9
+       Circle c10 = new Circle(725,147,25,Color.TRANSPARENT);
+       c10.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t10 = new Text(783,185,"2");
+       t10.setFill(Color.WHITE);
+       t10.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c10);
+       root.getChildren().add(t10);
+       
+     
+       //Circle 11
+       Circle c11 = new Circle(829,147,25,Color.TRANSPARENT);
+       c11.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t11 = new Text(823,185,"2");
+       t11.setFill(Color.WHITE);
+       t11.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c11);
+       root.getChildren().add(t11);
+       
+       //Circle 12
+       Circle c12 = new Circle(881,147,25,Color.TRANSPARENT);
+       c12.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t12 = new Text(873,185,"3");
+       t12.setFill(Color.WHITE);
+       t12.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c12);
+       root.getChildren().add(t12);
+       
+       //Circle 13
+       Circle c13 = new Circle(933,147,25,Color.TRANSPARENT);
+       c13.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t13 = new Text(923,185,"3");
+       t13.setFill(Color.WHITE);
+       t13.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c13);
+       root.getChildren().add(t13);
+       
+       //Circle 14
+       Circle c14 = new Circle(985,147,25,Color.TRANSPARENT);
+       c14.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t14 = new Text(973,185,"4");
+       t14.setFill(Color.WHITE);
+       t14.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c14);
+       root.getChildren().add(t14);
+       
+       //Circle 11
+       Circle c15 = new Circle(1037,147,25,Color.TRANSPARENT);
+       c15.setFill(Color.rgb(200, 200, 200, 0.7));
+       Text t15 = new Text(1023,185,"4");
+       t15.setFill(Color.WHITE);
+       t15.setStyle("-fx-font: 16 arial;");
+       root.getChildren().add(c15);
+       root.getChildren().add(t15);
        
        
        
@@ -365,8 +479,8 @@ public class Gui extends Application{
 		for(City c : cities) {
 			Text t = new Text (c.getName());
 			
-				t.setX(((1600+Double.parseDouble(c.getX()))/2.5)+7);
-				t.setY(((1500-Double.parseDouble(c.getY()))/2.5)+7);
+				t.setX(((1600+Double.parseDouble(c.getX()))/2.5)+12);
+				t.setY(((1500-Double.parseDouble(c.getY()))/2.5)+12);
 				t.setFill(Color.WHITE);
 				texts.add(t);
 		}
