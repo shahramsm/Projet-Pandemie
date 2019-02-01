@@ -150,6 +150,34 @@ public class City {
 		this.red = red;
 	}
 
+	public void setNbColor(int color, Disease d) {
+		switch (d) {
+		case BLUE:
+			this.setBlue(color);
+		case BLACK:
+			this.setBlack(color);
+		case YELLOW:
+			this.setYellow(color);
+		case RED:
+			this.setRed(color);
+		}
+	}
+
+	public int getNbColor(Disease d) {
+		int nbColor = 0;
+		switch (d) {
+		case BLUE:
+			nbColor = this.getBlue();
+		case BLACK:
+			nbColor = this.getBlack();
+		case YELLOW:
+			nbColor = this.getYellow();
+		case RED:
+			nbColor = this.getRed();
+		}
+		return nbColor;
+	}
+
 	public ArrayList<String> getNeighbours() {
 		return neighbours;
 	}
