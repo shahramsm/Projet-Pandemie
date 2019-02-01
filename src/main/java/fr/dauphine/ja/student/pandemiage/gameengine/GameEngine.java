@@ -82,7 +82,7 @@ public class GameEngine implements GameInterface {
 		Map<Disease, Integer> blocks = new HashMap<>();
 		for (String city : allCityNames()) {
 			for (Disease d : Disease.values()) {
-				blocks.put(d, blocks.getOrDefault(city, 0) + infectionLevel(city, d));
+				blocks.put(d, blocks.getOrDefault(d, 0) + infectionLevel(city, d));
 			}
 		}
 		System.err.println(blocks);
